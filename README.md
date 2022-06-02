@@ -1,27 +1,30 @@
-# UserSignup
+# User signup and listing app - Angular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.4.
+ ### A small CRUD project in angular where one can create a user, view the list of users, edit information of a user and delete a user.
 
-## Development server
+ ### While creating a user or updating a information of the user, following validations will be applied.
+ 
+ 1. Check if a user with the same username, email or phone number exists, if such user already exists a validation error will be shown on the page.
+ 2. For phone number, a phone number can only contain 10 digits.
+ 
+### One can also filter through the list of users by username, or search a user by id.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Json-server is used as a fake rest api in this project.
 
-## Code scaffolding
+## To get the angular app running after you've cloned the repo ...
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+1. At the root of the repo, type the following command in the command line to install all the necessary dependencies.
 
-## Build
+## `$ npm install`
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+2. After all the dependencies are installed, use 2 command line interfaces, to run the angular app in one command line and json-server in the other.
 
-## Running unit tests
+3. In one of the two command lines type the following command to run the angular app.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## `$ npm start`
 
-## Running end-to-end tests
+4. In the other command line type the followind command to run the json-server.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## `$ npm run server`
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+5. After completing steps 3 and 4 successfully, simply navigate to **http://localhost:4200** to use the angular app.
