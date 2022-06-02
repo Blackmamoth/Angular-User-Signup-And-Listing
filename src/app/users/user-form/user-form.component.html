@@ -26,6 +26,9 @@
             <span *ngIf="userForm.get('email').errors['emailIsTaken']">
                 Email is already in use
             </span><br>
+            <span *ngIf="userForm.get('email').errors['email']">
+                Please eneter a valid email which contains a '@' and a domain name
+            </span><br>
             <span *ngIf="userForm.get('email').errors['required']">
                 This field is required
             </span>
