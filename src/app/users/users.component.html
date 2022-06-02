@@ -1,0 +1,17 @@
+<form [formGroup]="searchForm">
+    <input type="text" placeholder="Enter user id for search" class="form-control w-50" formControlName="id">
+    <input type="text" placeholder="Enter username id for filter" class="form-control w-50 mt-1"
+        formControlName="username">
+    <button type="submit" class="btn btn-primary mt-2" (click)="searchUser()">Search</button>
+</form>
+
+<div class="row mt-5">
+    <div class="col">
+        <app-users-list [users]="users"></app-users-list>
+    </div>
+
+    <div class="mt-5">
+        <router-outlet></router-outlet>
+    </div>
+
+</div>

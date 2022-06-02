@@ -1,0 +1,11 @@
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{user.username}}</h5>
+        <p class="card-text">{{user.email}} - {{user.phone}}</p>
+        <p>{{user.dob}}</p>
+        <span>
+            <button (click)="edit()" class="btn btn-outline-primary me-3">Edit</button>
+            <button (click)="deleteUser()" class="btn btn-outline-danger">Delete</button>
+        </span>
+    </div>
+</div>

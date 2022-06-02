@@ -1,0 +1,71 @@
+<h3>{{editMode ? 'Update User' : 'Register User'}}</h3>
+
+<form class="card p-3 border-dark" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+
+    <div class="mb-3 mt-3">
+        <label for="username" class="form-label h5">Username</label>
+        <input type="text" class="form-control" formControlName="username">
+
+        <span *ngIf="!userForm.get('username').valid  && userForm.get('username').touched">
+            <span *ngIf="userForm.get('username').errors['usernameIsTaken']">
+                Name is already in use
+            </span><br>
+            <span *ngIf="userForm.get('username').errors['required']">
+                This field is required
+            </span>
+        </span>
+
+
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label for="email" class="form-label h5">Email</label>
+        <input type="email" class="form-control" formControlName="email">
+
+        <span *ngIf="!userForm.get('email').valid  && userForm.get('email').touched">
+            <span *ngIf="userForm.get('email').errors['emailIsTaken']">
+                Email is already in use
+            </span><br>
+            <span *ngIf="userForm.get('email').errors['required']">
+                This field is required
+            </span>
+        </span>
+
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label for="phone" class="form-label h5">Phone</label>
+        <input type="number" class="form-control" formControlName="phone">
+
+        <span *ngIf="!userForm.get('phone').valid  && userForm.get('phone').touched">
+            <span *ngIf="userForm.get('phone').errors['phoneIsTaken']">
+                Phone number is already in use
+            </span><br>
+            <span *ngIf="userForm.get('phone').errors['tenDigitRequired']">
+                Phone number must contain 10 digits
+            </span><br>
+            <span *ngIf="userForm.get('phone').errors['required']">
+                This field is required
+            </span>
+        </span>
+
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label for="dob" class="form-label h5">DOB</label>
+        <input type="date" class="form-control" formControlName="dob">
+
+        <span *ngIf="!userForm.get('dob').valid  && userForm.get('dob').touched">
+            <span *ngIf="userForm.get('dob').errors['required']">
+                This field is required
+            </span>
+        </span>
+
+    </div>
+
+    <div class="mb-3 mt-3">
+        <button type="submit" [disabled]="!userForm.valid && !editMode" class="btn btn-primary">{{editMode ? 'Update' :
+            'Register'}}</button>
+    </div>
+
+</form>
