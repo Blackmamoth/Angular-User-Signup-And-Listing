@@ -42,7 +42,7 @@ export class UsersComponent implements OnInit {
   }
 
   searchUser() {
-    let id: number = +this.searchForm.get('id').value
+    let id: string = this.searchForm.get('id').value
     let searchedUsername: string = this.searchForm.get('username').value;
     let searchedUsers: User[] = [];
     if (this.searchForm.get('id').value) {

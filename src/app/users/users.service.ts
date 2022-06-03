@@ -33,13 +33,13 @@ export class UsersService {
   }
 
   updateUser(user: User, newUser: User): Observable<User> {
-    const url = `${this.baseUrl}/${user.id}`
+    const url = `${this.baseUrl}/${user._id}`
     console.log(url)
-    return this.http.put<User>(url, newUser, httpOptions)
+    return this.http.patch<User>(url, newUser, httpOptions)
   }
 
   deleteUser(user: User): Observable<User> {
-    return this.http.delete<User>(`${this.baseUrl}/${user.id}`)
+    return this.http.delete<User>(`${this.baseUrl}/${user._id}`)
   }
 
 }

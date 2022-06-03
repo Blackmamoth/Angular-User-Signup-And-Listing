@@ -18,7 +18,8 @@ export class UsersDetailComponent implements OnInit {
   }
 
   edit() {
-    this.router.navigate([this.user.id, 'edit'], { relativeTo: this.route })
+    // console.log(this.user)
+    this.router.navigate([this.user._id, 'edit'], { relativeTo: this.route })
   }
 
   deleteUser() {
