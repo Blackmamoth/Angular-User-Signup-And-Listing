@@ -18,13 +18,13 @@ export class UsersService {
   constructor(private http: HttpClient) { }
 
 
-  baseUrl: string = 'http://localhost:5000/users';
+  baseUrl: string = 'http://localhost:5000/api/users';
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.baseUrl, httpOptions);
   }
 
-  getUser(id: number): Observable<User> {
+  getUser(id: string): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}/${id}`, httpOptions)
   }
 

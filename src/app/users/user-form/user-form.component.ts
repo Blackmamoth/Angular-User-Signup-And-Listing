@@ -24,7 +24,7 @@ export class UserFormComponent implements OnInit {
 
   user: User;
 
-  userId: number;
+  userId: string;
 
   constructor(private userService: UsersService, private router: Router, private route: ActivatedRoute) { }
 
