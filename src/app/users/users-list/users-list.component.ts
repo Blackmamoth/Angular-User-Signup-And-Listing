@@ -10,9 +10,11 @@ import { UsersService } from '../users.service';
 })
 export class UsersListComponent implements OnInit {
 
-  @Input() users: User;
+  @Input() users: User[];
 
-  constructor(private userService: UsersService, private router: Router, private route:ActivatedRoute) { }
+  pageNum: number;
+
+  constructor(private userService: UsersService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
 
@@ -25,6 +27,10 @@ export class UsersListComponent implements OnInit {
 
   edit(user: User) {
     this.router.navigate([user._id, 'edit'], { relativeTo: this.route })
+  }
+
+  pageChanged(pageNum) {
+    this.pageNum = pageNum;
   }
 
 }
