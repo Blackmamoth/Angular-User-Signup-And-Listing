@@ -3,5 +3,8 @@ export interface User {
     username: string,
     email: string,
     phone: number,
-    dob: Date
+    dob: Date,
+    country: string,
+    state: string,
+    pinCode: number
 }

@@ -63,7 +63,45 @@
                 This field is required
             </span>
         </span>
+    </div>
 
+    <div class="mb-3 mt-3">
+        <label for="dob" class="form-label h5">Country</label>
+        <select formControlName="country" class="form-control" (change)="countryChanged()">
+            <option *ngFor="let country of countries" value="{{country}}">{{country}}</option>
+        </select>
+
+        <span *ngIf="!userForm.get('country').valid  && userForm.get('country').touched">
+            <span *ngIf="userForm.get('country').errors['required']">
+                This field is required
+            </span>
+        </span>
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label for="dob" class="form-label h5">State</label>
+        <select formControlName="state" class="form-control" (change)="stateChanged()">
+            <option *ngFor="let state of states" value="{{state}}">{{state}}</option>
+        </select>
+
+        <span *ngIf="!userForm.get('state').valid  && userForm.get('state').touched">
+            <span *ngIf="userForm.get('state').errors['required']">
+                This field is required
+            </span>
+        </span>
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label for="dob" class="form-label h5">Pin Code</label>
+        <select formControlName="pinCode" class="form-control">
+            <option *ngFor="let code of pinCodes" value="{{code}}">{{code}}</option>
+        </select>
+
+        <span *ngIf="!userForm.get('pinCode').valid  && userForm.get('pinCode').touched">
+            <span *ngIf="userForm.get('pinCode').errors['required']">
+                This field is required
+            </span>
+        </span>
     </div>
 
     <div class="mb-3 mt-3">
