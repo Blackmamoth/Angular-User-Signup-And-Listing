@@ -67,8 +67,9 @@
     </div>
 
     <div class="mb-3 mt-3">
-        <button type="submit" [disabled]="!userForm.valid && !editMode" class="btn btn-primary">{{editMode ? 'Update' :
+        <button type="submit" [disabled]="!userForm.valid && !editMode" class="btn btn-primary me-2">{{editMode ? 'Update' :
             'Register'}}</button>
+        <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
     </div>
 
 </form>

@@ -18,28 +18,27 @@ export class UsersService {
   constructor(private http: HttpClient) { }
 
 
-  baseUrl: string = '/api/users';
+  baseUrl: string = 'http://localhost:5000/api/users';
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.baseUrl, httpOptions);
   }
 
   getUser(id: string): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}/${id}`, httpOptions)
+    return this.http.get<User>(`${this.baseUrl}/${id}`, httpOptions);
   }
 
   addUser(user: User): Observable<User> {
-    return this.http.post<User>(this.baseUrl, user, httpOptions)
+    return this.http.post<User>(this.baseUrl, user, httpOptions);
   }
 
   updateUser(user: User, newUser: User): Observable<User> {
     const url = `${this.baseUrl}/${user._id}`
-    console.log(url)
-    return this.http.patch<User>(url, newUser, httpOptions)
+    return this.http.patch<User>(url, newUser, httpOptions);
   }
 
   deleteUser(user: User): Observable<User> {
-    return this.http.delete<User>(`${this.baseUrl}/${user._id}`)
+    return this.http.delete<User>(`${this.baseUrl}/${user._id}`);
   }
 
 }

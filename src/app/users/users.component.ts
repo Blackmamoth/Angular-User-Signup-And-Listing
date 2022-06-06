@@ -34,33 +34,32 @@ export class UsersComponent implements OnInit {
     })
 
     this.searchForm = new FormGroup({
-      'id': new FormControl(null),
-      'username': new FormControl(null)
+      'searchQuery': new FormControl(null)
     })
 
 
   }
 
   searchUser() {
-    let id: string = this.searchForm.get('id').value
-    let searchedUsername: string = this.searchForm.get('username').value;
-    let searchedUsers: User[] = [];
-    if (this.searchForm.get('id').value) {
-      this.userService.getUser(id).subscribe(
-        user => this.users = [user]
-      )
-    } else if (this.searchForm.get('username').value) {
-      this.userService.getUsers().subscribe(
-        users => {
-          users.forEach(user => {
-            if (user.username.startsWith(searchedUsername)) {
-              searchedUsers.push(user)
-            }
-          })
+    let searchQuery = this.searchForm.get('searchQuery').value;
+    if(searchQuery.startsWith('629e')) {
+      this.users.find(user => {
+        if(user._id === searchQuery){
+          this.users = [user]
+          return;
         }
-      )
-      this.users = searchedUsers
+      })
     }
+
+    let usersList: User[] = []
+
+    this.users.filter(user => {
+      if(user.username.startsWith(searchQuery)){
+        usersList.push(user)
+      }
+      this.users = [...usersList]
+    })
+
 
   }
 

@@ -98,7 +98,7 @@ export class UserFormComponent implements OnInit {
   }
 
   onSubmit() {
-    const user: User = { username: this.userForm.get('username').value, phone: this.userForm.get('phone').value, email: this.userForm.get('email').value, dob: this.userForm.get('dob').value };
+    const user: User = { username: this.userForm.get('username').value, phone: this.userForm.get('phone').value, email: this.userForm.get('email').value, dob: new Date(this.userForm.get('dob').value) };
     if (this.editMode) {
       this.userService.updateUser(this.user, user).subscribe()
     } else {
@@ -107,5 +107,8 @@ export class UserFormComponent implements OnInit {
     this.router.navigate(['/'])
   }
 
+  onCancel() {
+    this.router.navigate(['/'])
+  }
 
 }

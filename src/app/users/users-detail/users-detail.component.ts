@@ -11,20 +11,15 @@ import { UsersService } from '../users.service';
 export class UsersDetailComponent implements OnInit {
 
   @Input() user: User;
+  @Input() index: number;
 
   constructor(private router: Router, private route: ActivatedRoute, private userService: UsersService) { }
 
   ngOnInit(): void {
   }
 
-  edit() {
-    // console.log(this.user)
-    this.router.navigate([this.user._id, 'edit'], { relativeTo: this.route })
-  }
+  
 
-  deleteUser() {
-    this.userService.deleteUser(this.user).subscribe();
-    this.router.navigate(['/'])
-  }
+  
 
 }
