@@ -66,8 +66,8 @@
     </div>
 
     <div class="mb-3 mt-3">
-        <label for="dob" class="form-label h5">Country</label>
-        <select formControlName="country" class="form-control" (change)="countryChanged()">
+        <label for="country" class="form-label h5">Country</label>
+        <select id="country" formControlName="country" class="form-control" (change)="countryChanged()">
             <option *ngFor="let country of countries" value="{{country}}">{{country}}</option>
         </select>
 
@@ -79,35 +79,45 @@
     </div>
 
     <div class="mb-3 mt-3">
-        <label for="dob" class="form-label h5">State</label>
-        <select formControlName="state" class="form-control" (change)="stateChanged()">
+        <label for="state" class="form-label h5">State</label>
+        <select id="state" formControlName="state" class="form-control" (change)="stateChanged()">
             <option *ngFor="let state of states" value="{{state}}">{{state}}</option>
         </select>
 
-        <span *ngIf="!userForm.get('state').valid  && userForm.get('state').touched">
+        <span *ngIf="!userForm.get('state').valid  && userForm.get('state').touched && userForm.get('country').touched">
             <span *ngIf="userForm.get('state').errors['required']">
                 This field is required
             </span>
         </span>
-    </div>
 
-    <div class="mb-3 mt-3">
-        <label for="dob" class="form-label h5">City</label>
-        <select formControlName="pinCode" class="form-control">
-            <option *ngFor="let code of cities" value="{{code}}">{{code}}</option>
-        </select>
-
-        <span *ngIf="!userForm.get('city').valid  && userForm.get('city').touched">
-            <span *ngIf="userForm.get('city').errors['required']">
-                This field is required
-            </span>
+        <span *ngIf="!userForm.get('country').touched && userForm.get('state').touched">
+            Please select country first
         </span>
     </div>
 
     <div class="mb-3 mt-3">
+        <label for="city" class="form-label h5">City</label>
+        <select id="city" formControlName="city" class="form-control">
+            <option *ngFor="let city of cities" value="{{city}}">{{city}}</option>
+        </select>
+
+        <span *ngIf="!userForm.get('city').valid  && userForm.get('city').touched && userForm.get('country').touched">
+            <span *ngIf="userForm.get('city').errors['required']">
+                This field is required
+            </span>
+        </span>
+
+        <span *ngIf="!userForm.get('country').touched && userForm.get('city').touched">
+            Please select country first
+        </span>
+    </div>
+
+    
+
+    <!-- <div class="mb-3 mt-3">
         <label for="dob" class="form-label h5">Pin Code</label>
         <select formControlName="pinCode" class="form-control">
-            <!-- <option *ngFor="let code of pinCodes" value="{{code}}">{{code}}</option> -->
+             <option *ngFor="let code of pinCodes" value="{{code}}">{{code}}</option> 
         </select>
 
         <span *ngIf="!userForm.get('pinCode').valid  && userForm.get('pinCode').touched">
@@ -115,7 +125,7 @@
                 This field is required
             </span>
         </span>
-    </div>
+    </div> -->
 
 
 

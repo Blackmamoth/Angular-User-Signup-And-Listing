@@ -72,18 +72,6 @@ export class UserFormComponent implements OnInit {
       })
     })
 
-    this.userService.getStates().subscribe(states => {
-      states.forEach(state => {
-        this.states.push(state.name)
-      })
-    })
-
-    this.userService.getCities().subscribe(cities => {
-      cities.forEach(city => {
-        this.cities.push(city.name)
-      })
-    })
-
     this.userForm = new FormGroup({
       'username': new FormControl(null, [Validators.required, this.usernameTaken.bind(this)]),
       'email': new FormControl(null, [Validators.required, Validators.email, this.emailTaken.bind(this)]),
@@ -91,7 +79,7 @@ export class UserFormComponent implements OnInit {
       'dob': new FormControl(null, Validators.required),
       'country': new FormControl(null, Validators.required),
       'state': new FormControl(null, Validators.required),
-      'pinCode': new FormControl(null, Validators.required),
+      'pinCode': new FormControl(null),
       'city': new FormControl(null, Validators.required)
     })
 
@@ -141,11 +129,35 @@ export class UserFormComponent implements OnInit {
   }
 
   countryChanged() {
-
+    const country = this.userForm.get('country').value
+    this.cities = [];
+    this.states = [];
+    this.userService.getStates().subscribe(states => {
+      states.forEach(state => {
+        if (state.country_name === country) {
+          this.states.push(state.name)
+        }
+      })
+    })
+    this.userService.getCities().subscribe(cities => {
+      cities.forEach(city => {
+        if (city.country_name === country) {
+          this.cities.push(city.name)
+        }
+      })
+    })
   }
 
   stateChanged() {
-
+    const state = this.userForm.get('state').value;
+    this.cities = [];
+    this.userService.getCities().subscribe(cities => {
+      cities.forEach(city => {
+        if (city.state_name === state) {
+          this.cities.push(city.name)
+        }
+      })
+    })
   }
 
 }
