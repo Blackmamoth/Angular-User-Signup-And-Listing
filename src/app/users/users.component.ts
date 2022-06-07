@@ -13,6 +13,7 @@ import { UsersService } from './users.service';
 export class UsersComponent implements OnInit {
 
   users: User[];
+  filteredUsers: User[];
 
   searchForm: FormGroup;
 
@@ -52,7 +53,7 @@ export class UsersComponent implements OnInit {
           return user;
         }
       })
-      this.users = [user]
+      this.filteredUsers = [user]
       return;
     }
 
@@ -65,7 +66,7 @@ export class UsersComponent implements OnInit {
           return user.country === "USA"
         }
       })
-      this.users = [...users]
+      this.filteredUsers = [...users]
       return;
     }
 
@@ -87,7 +88,7 @@ export class UsersComponent implements OnInit {
         default:
           break;
       }
-      this.users = users;
+      this.filteredUsers = users;
       return
     }
 
@@ -98,7 +99,7 @@ export class UsersComponent implements OnInit {
       if (user.username.startsWith(searchQuery)) {
         usersList.push(user)
       }
-      this.users = [...usersList]
+      this.filteredUsers = [...usersList]
       return;
     })
 

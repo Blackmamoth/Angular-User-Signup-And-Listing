@@ -11,6 +11,7 @@ import { UsersService } from '../users.service';
 export class UsersListComponent implements OnInit {
 
   @Input() users: User[];
+  @Input() filteredUsers: User[];
 
   pageNum: number;
 
