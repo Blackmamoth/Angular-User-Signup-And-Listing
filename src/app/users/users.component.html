@@ -1,6 +1,5 @@
 <form [formGroup]="searchForm">
-    <input type="text" placeholder="Enter ID or Username or Country or State (Case Sensitive)" class="form-control w-50" formControlName="searchQuery">
-    <button type="submit" class="btn btn-primary mt-2" (click)="searchUser()">Search</button>
+    <input type="text" (change)="searchUser()" placeholder="Enter ID or Username or Country or State (Case Sensitive)" class="form-control w-50" formControlName="searchQuery">
 </form>
 
 <div class="row mt-5">

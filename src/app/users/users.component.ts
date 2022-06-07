@@ -44,7 +44,7 @@ export class UsersComponent implements OnInit {
   searchUser() {
     let searchQuery = this.searchForm.get('searchQuery').value;
     if (!searchQuery) {
-      alert('Please enter a value to search a user by');
+      this.filteredUsers = null;
       return;
     }
     if (searchQuery.startsWith('629e')) {
@@ -102,12 +102,6 @@ export class UsersComponent implements OnInit {
       this.filteredUsers = [...usersList]
       return;
     })
-
-
-
-
-
-
 
   }
 
