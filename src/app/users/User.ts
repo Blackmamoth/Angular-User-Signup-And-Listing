@@ -6,5 +6,6 @@ export interface User {
     dob: Date,
     country: string,
     state: string,
-    pinCode: number
+    pinCode: number,
+    city: string
 }

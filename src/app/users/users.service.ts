@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { User } from './User';
 
 const httpOptions = {
@@ -19,6 +19,7 @@ export class UsersService {
 
 
   baseUrl: string = 'http://localhost:5000/api/users';
+  addressUrl: string = 'http://localhost:5000/api/address'
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.baseUrl, httpOptions);
@@ -39,6 +40,18 @@ export class UsersService {
 
   deleteUser(user: User): Observable<User> {
     return this.http.delete<User>(`${this.baseUrl}/${user._id}`);
+  }
+
+  getCountries(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.addressUrl}/countries`, httpOptions);
+  }
+
+  getStates(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.addressUrl}/states`, httpOptions);
+  }
+
+  getCities(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.addressUrl}/cities`, httpOptions)
   }
 
 }

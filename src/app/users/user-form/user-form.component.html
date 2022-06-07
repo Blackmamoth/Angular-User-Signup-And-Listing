@@ -92,9 +92,22 @@
     </div>
 
     <div class="mb-3 mt-3">
+        <label for="dob" class="form-label h5">City</label>
+        <select formControlName="pinCode" class="form-control">
+            <option *ngFor="let code of cities" value="{{code}}">{{code}}</option>
+        </select>
+
+        <span *ngIf="!userForm.get('city').valid  && userForm.get('city').touched">
+            <span *ngIf="userForm.get('city').errors['required']">
+                This field is required
+            </span>
+        </span>
+    </div>
+
+    <div class="mb-3 mt-3">
         <label for="dob" class="form-label h5">Pin Code</label>
         <select formControlName="pinCode" class="form-control">
-            <option *ngFor="let code of pinCodes" value="{{code}}">{{code}}</option>
+            <!-- <option *ngFor="let code of pinCodes" value="{{code}}">{{code}}</option> -->
         </select>
 
         <span *ngIf="!userForm.get('pinCode').valid  && userForm.get('pinCode').touched">
@@ -104,8 +117,11 @@
         </span>
     </div>
 
+
+
     <div class="mb-3 mt-3">
-        <button type="submit" [disabled]="!userForm.valid && !editMode" class="btn btn-primary me-2">{{editMode ? 'Update' :
+        <button type="submit" [disabled]="!userForm.valid && !editMode" class="btn btn-primary me-2">{{editMode ?
+            'Update' :
             'Register'}}</button>
         <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
     </div>

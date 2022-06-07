@@ -20,20 +20,9 @@ export class UserFormComponent implements OnInit {
   emails: string[] = [];
   phones: number[] = [];
 
-  indiaStates: string[] = ["Mumbai", "Delhi"];
-  usaStates: string[] = ["Alaska", "New York"]
-  states: string[] = [...this.indiaStates, ...this.usaStates]
-
-
-  mumbaiPincodes: string[] = ["400029", "400065", "400011", "400099", "400004"];
-  delhiPincodes: string[] = ["110002", "110003", "110010", "110015", "110018"]
-
-  alaskaPincodes: string[] = ["99501", "99502", "99503", "99504", "99505"]
-  nyPincodes: string[] = ["10001", "10002", "10003", "10004", "10005"]
-
-  pinCodes: string[] = [...this.mumbaiPincodes, ...this.delhiPincodes, ...this.alaskaPincodes, ...this.nyPincodes]
-
-  countries: string[] = ['India', 'USA']
+  countries: string[] = [];
+  states: string[] = [];
+  cities: string[] = [];
 
   editMode: boolean = false;
 
@@ -63,8 +52,6 @@ export class UserFormComponent implements OnInit {
               'state': this.user.state,
               'pinCode': this.user.pinCode
             })
-            this.countryChanged();
-            this.stateChanged();
           })
 
         }
@@ -79,6 +66,24 @@ export class UserFormComponent implements OnInit {
       })
     })
 
+    this.userService.getCountries().subscribe(countries => {
+      countries.forEach(country => {
+        this.countries.push(country.name)
+      })
+    })
+
+    this.userService.getStates().subscribe(states => {
+      states.forEach(state => {
+        this.states.push(state.name)
+      })
+    })
+
+    this.userService.getCities().subscribe(cities => {
+      cities.forEach(city => {
+        this.cities.push(city.name)
+      })
+    })
+
     this.userForm = new FormGroup({
       'username': new FormControl(null, [Validators.required, this.usernameTaken.bind(this)]),
       'email': new FormControl(null, [Validators.required, Validators.email, this.emailTaken.bind(this)]),
@@ -87,6 +92,7 @@ export class UserFormComponent implements OnInit {
       'country': new FormControl(null, Validators.required),
       'state': new FormControl(null, Validators.required),
       'pinCode': new FormControl(null, Validators.required),
+      'city': new FormControl(null, Validators.required)
     })
 
   }
@@ -121,7 +127,7 @@ export class UserFormComponent implements OnInit {
   }
 
   onSubmit() {
-    const user: User = { username: this.userForm.get('username').value, phone: this.userForm.get('phone').value, email: this.userForm.get('email').value, dob: new Date(this.userForm.get('dob').value), country: this.userForm.get('country').value, state: this.userForm.get('state').value, pinCode: +this.userForm.get('pinCode').value };
+    const user: User = { username: this.userForm.get('username').value, phone: this.userForm.get('phone').value, email: this.userForm.get('email').value, dob: new Date(this.userForm.get('dob').value), country: this.userForm.get('country').value, state: this.userForm.get('state').value, pinCode: +this.userForm.get('pinCode').value, city: this.userForm.get('city').value };
     if (this.editMode) {
       this.userService.updateUser(this.user, user).subscribe()
     } else {
@@ -135,39 +141,11 @@ export class UserFormComponent implements OnInit {
   }
 
   countryChanged() {
-    console.log('Country change called')
-    const selectedCountry = this.userForm.get('country').value;
-    switch (selectedCountry) {
-      case "India":
-        this.states = [...this.indiaStates];
-        this.pinCodes = [...this.mumbaiPincodes, ...this.delhiPincodes]
-        break;
-      case "USA":
-        this.states = [...this.usaStates];
-        this.pinCodes = [...this.alaskaPincodes, ...this.nyPincodes]
-        break;
-      default:
-        this.states = [...this.indiaStates, ...this.usaStates];
-        break;
-    }
+
   }
 
   stateChanged() {
-    console.log('State Change called')
-    const selectedState = this.userForm.get('state').value;
-    switch (selectedState) {
-      case "Mumbai":
-        this.pinCodes = [...this.mumbaiPincodes];
-        break;
-      case "Delhi":
-        this.pinCodes = [...this.delhiPincodes];
-        break;
-      case "Alaska":
-        this.pinCodes = [...this.alaskaPincodes];
-        break;
-      case "New York":
-        this.pinCodes = [...this.nyPincodes]
-    }
+
   }
 
 }
