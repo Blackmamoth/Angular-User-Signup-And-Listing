@@ -50,7 +50,6 @@ export class UserFormComponent implements OnInit {
               'dob': dob,
               'country': this.user.country,
               'state': this.user.state,
-              'pinCode': this.user.pinCode
             })
           })
 
@@ -79,7 +78,6 @@ export class UserFormComponent implements OnInit {
       'dob': new FormControl(null, Validators.required),
       'country': new FormControl(null, Validators.required),
       'state': new FormControl(null, Validators.required),
-      'pinCode': new FormControl(null),
       'city': new FormControl(null, Validators.required)
     })
 
@@ -115,7 +113,7 @@ export class UserFormComponent implements OnInit {
   }
 
   onSubmit() {
-    const user: User = { username: this.userForm.get('username').value, phone: this.userForm.get('phone').value, email: this.userForm.get('email').value, dob: new Date(this.userForm.get('dob').value), country: this.userForm.get('country').value, state: this.userForm.get('state').value, pinCode: +this.userForm.get('pinCode').value, city: this.userForm.get('city').value };
+    const user: User = { username: this.userForm.get('username').value, phone: this.userForm.get('phone').value, email: this.userForm.get('email').value, dob: new Date(this.userForm.get('dob').value), country: this.userForm.get('country').value, state: this.userForm.get('state').value, city: this.userForm.get('city').value };
     if (this.editMode) {
       this.userService.updateUser(this.user, user).subscribe()
     } else {

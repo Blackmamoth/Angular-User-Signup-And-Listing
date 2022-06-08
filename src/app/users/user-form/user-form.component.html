@@ -112,22 +112,6 @@
         </span>
     </div>
 
-    
-
-    <!-- <div class="mb-3 mt-3">
-        <label for="dob" class="form-label h5">Pin Code</label>
-        <select formControlName="pinCode" class="form-control">
-             <option *ngFor="let code of pinCodes" value="{{code}}">{{code}}</option> 
-        </select>
-
-        <span *ngIf="!userForm.get('pinCode').valid  && userForm.get('pinCode').touched">
-            <span *ngIf="userForm.get('pinCode').errors['required']">
-                This field is required
-            </span>
-        </span>
-    </div> -->
-
-
 
     <div class="mb-3 mt-3">
         <button type="submit" [disabled]="!userForm.valid && !editMode" class="btn btn-primary me-2">{{editMode ?
