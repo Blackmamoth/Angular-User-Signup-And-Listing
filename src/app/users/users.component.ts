@@ -44,65 +44,58 @@ export class UsersComponent implements OnInit {
   searchUser() {
     let searchQuery = this.searchForm.get('searchQuery').value;
     if (!searchQuery) {
-      this.filteredUsers = null;
-      return;
-    }
-    if (searchQuery.startsWith('629e')) {
-      const user = this.users.find(user => {
-        if (user._id === searchQuery) {
-          return user;
-        }
-      })
-      this.filteredUsers = [user]
+      alert('Please enter a value to search a user by');
       return;
     }
 
+    let users = this.users.filter(user => user.state === searchQuery)
 
-    if (searchQuery === "India" || searchQuery === "USA") {
-      const users: User[] = this.users.filter(user => {
-        if (searchQuery === "India") {
-          return user.country === "India"
-        } else {
-          return user.country === "USA"
-        }
-      })
-      this.filteredUsers = [...users]
+    if (users.length > 0) {
+      this.filteredUsers = users;
       return;
     }
 
-    if (searchQuery === "Mumbai" || searchQuery === "Delhi" || searchQuery === "Alaska" || searchQuery === "New York") {
-      let users: User[];
-      switch (searchQuery) {
-        case "Mumbai":
-          users = this.users.filter(user => user.state === "Mumbai")
-          break;
-        case "Delhi":
-          users = this.users.filter(user => user.state === "Delhi")
-          break;
-        case "Alaska":
-          users = this.users.filter(user => user.state === "Alaska")
-          break;
-        case "New York":
-          users = this.users.filter(user => user.state === "New York")
-          break;
-        default:
-          break;
-      }
+    users = this.users.filter(user => user.city === searchQuery)
+
+    if (users.length > 0) {
+      this.filteredUsers = users;
+      return;
+    }
+
+    users = this.users.filter(user => user.pinCode === +searchQuery)
+
+    if (users.length > 0) {
+      this.filteredUsers = users;
+      return;
+    }
+
+    users = this.users.filter(user => user.username.startsWith(searchQuery))
+
+    if (users.length > 0) {
       this.filteredUsers = users;
       return
     }
 
+    users = this.users.filter(user => user._id === searchQuery)
 
-    let usersList: User[] = []
-
-    this.users.filter(user => {
-      if (user.username.startsWith(searchQuery)) {
-        usersList.push(user)
-      }
-      this.filteredUsers = [...usersList]
+    if (users.length > 0) {
+      this.filteredUsers = users;
       return;
-    })
+    }
 
+    users = this.users.filter(user => user.country === searchQuery)
+
+    if (users.length > 0) {
+      this.filteredUsers = users;
+      return
+    }
+
+    alert('No user with that filter found')
+  }
+
+  onClear() {
+    this.filteredUsers = null;
+    this.searchForm.reset()
   }
 
 }
