@@ -43,6 +43,7 @@ export class UserFormComponent implements OnInit {
             this.user = user;
             const date = new Date(this.user.dob);
             const dob = `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`
+            this.countryChanged()
             this.userForm.patchValue({
               'username': this.user.username,
               'phone': this.user.phone,
@@ -50,6 +51,7 @@ export class UserFormComponent implements OnInit {
               'dob': dob,
               'country': this.user.country,
               'state': this.user.state,
+              'city': this.user.city,
               'pinCode': this.user.pinCode
             })
           })
@@ -137,6 +139,7 @@ export class UserFormComponent implements OnInit {
   }
 
   countryChanged() {
+    console.log('Country changed called')
     const country = this.userForm.get('country').value
     this.cities = [];
     this.states = [];

@@ -14,6 +14,7 @@ export class UsersComponent implements OnInit {
 
   users: User[];
   filteredUsers: User[];
+  itemsPerPage: number;
 
   searchForm: FormGroup;
 
@@ -35,10 +36,18 @@ export class UsersComponent implements OnInit {
     })
 
     this.searchForm = new FormGroup({
-      'searchQuery': new FormControl(null)
+      'searchQuery': new FormControl(null),
+      'itemsPerPage': new FormControl(5),
     })
 
+    this.itemsPerPage = this.searchForm.get('itemsPerPage').value
 
+  }
+
+  itemsPerPageChanged() {
+    const itemsPerPage = this.searchForm.get('itemsPerPage').value;
+    this.itemsPerPage = itemsPerPage
+    console.log(this.itemsPerPage)
   }
 
   searchUser() {

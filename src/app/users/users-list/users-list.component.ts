@@ -12,6 +12,7 @@ export class UsersListComponent implements OnInit {
 
   @Input() users: User[];
   @Input() filteredUsers: User[];
+  @Input() itemsPerPage: number;
 
   pageNum: number;
 

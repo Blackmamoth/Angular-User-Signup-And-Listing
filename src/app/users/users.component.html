@@ -4,11 +4,21 @@
         <button class="btn-primary btn btn-sm m-1" (click)="searchUser()">Search</button>
         <button class="btn-danger btn btn-sm m-1" (click)="onClear()">Clear</button>
     </span>
+
+    <div>
+        <select formControlName="itemsPerPage" class="form-control" (change)="itemsPerPageChanged()">
+            <option value="5" selected>5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+        </select>
+    </div>
+
 </form>
+
 
 <div class="row mt-5">
     <div class="col">
-        <app-users-list [users]="users" [filteredUsers]="filteredUsers"></app-users-list>
+        <app-users-list [users]="users" [filteredUsers]="filteredUsers" [itemsPerPage]="itemsPerPage"></app-users-list>
     </div>
 
     <div class="mt-5">
