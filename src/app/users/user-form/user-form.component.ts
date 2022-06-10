@@ -43,7 +43,6 @@ export class UserFormComponent implements OnInit {
             this.user = user;
             const date = new Date(this.user.dob);
             const dob = `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`
-            this.countryChanged()
             this.userForm.patchValue({
               'username': this.user.username,
               'phone': this.user.phone,
@@ -54,8 +53,8 @@ export class UserFormComponent implements OnInit {
               'city': this.user.city,
               'pinCode': this.user.pinCode
             })
+            this.cities = [user.city]
           })
-
         }
       }
     )
@@ -82,7 +81,7 @@ export class UserFormComponent implements OnInit {
       'dob': new FormControl(null, Validators.required),
       'country': new FormControl(null, Validators.required),
       'state': new FormControl(null, Validators.required),
-      'city': new FormControl(null),
+      'city': new FormControl(null, Validators.required),
       'pinCode': new FormControl(null, [Validators.required, this.sixDigitRequired.bind(this)])
     })
 
@@ -169,7 +168,9 @@ export class UserFormComponent implements OnInit {
         }
       })
     })
+    console.log('called')
   }
+
 
   pushToArrayIfNotItemExists(arr: string[], item: string) {
     if (!arr.includes(item)) {
