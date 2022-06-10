@@ -89,8 +89,8 @@
                 This field is required
             </span>
         </span>
-
-        <span *ngIf="!userForm.get('country').touched && userForm.get('state').touched">
+        <br>
+        <span *ngIf="userForm.get('country').value === null && userForm.get('state').touched">
             Please select country first
         </span>
     </div>

@@ -68,9 +68,10 @@ export class UserFormComponent implements OnInit {
       })
     })
 
-    this.userService.getCountries().subscribe(countries => {
-      countries.forEach(country => {
-        this.countries.push(country.name)
+    this.userService.getCities().subscribe(cities => {
+      cities.forEach(city => {
+        this.pushToArrayIfNotItemExists(this.countries, city.country_name)
+        this.pushToArrayIfNotItemExists(this.states, city.state_name)
       })
     })
 
@@ -139,7 +140,6 @@ export class UserFormComponent implements OnInit {
   }
 
   countryChanged() {
-    console.log('Country changed called')
     const country = this.userForm.get('country').value
     this.cities = [];
     this.states = [];
@@ -169,6 +169,13 @@ export class UserFormComponent implements OnInit {
         }
       })
     })
+  }
+
+  pushToArrayIfNotItemExists(arr: string[], item: string) {
+    if (!arr.includes(item)) {
+      arr.push(item);
+      return;
+    }
   }
 
 }
