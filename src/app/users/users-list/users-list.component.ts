@@ -27,8 +27,13 @@ export class UsersListComponent implements OnInit {
   }
 
   deleteUser(user: User) {
-    this.userService.deleteUser(user).subscribe();
-    this.router.navigate(['/'])
+    const proceed = confirm("Are you sure you want to delete this user?")
+    if (proceed) {
+      this.userService.deleteUser(user).subscribe();
+      this.router.navigate(['/'])
+    } else {
+      return;
+    }
   }
 
   edit(user: User) {
