@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { User } from '../User';
+import { UserFormComponent } from '../user-form/user-form.component';
 import { UsersService } from '../users.service';
 
 @Component({
@@ -14,9 +16,11 @@ export class UsersListComponent implements OnInit {
   @Input() filteredUsers: User[];
   @Input() itemsPerPage: number;
 
+  modalRef?: BsModalRef;
+
   pageNum: number;
 
-  constructor(private userService: UsersService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private userService: UsersService, private router: Router, private modalService: BsModalService) { }
 
   ngOnInit(): void {
 
@@ -28,7 +32,9 @@ export class UsersListComponent implements OnInit {
   }
 
   edit(user: User) {
-    this.router.navigate([user._id, 'edit'], { relativeTo: this.route })
+    // this.router.navigate([user._id, 'edit'], { relativeTo: this.route })
+    this.modalRef = this.modalService.show(UserFormComponent, { class: 'modal-xl', id: user._id, initialState: { editMode: true, userId: user._id } },)
+
   }
 
   pageChanged(pageNum) {

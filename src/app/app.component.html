@@ -1,7 +1,8 @@
 <div class="container">
     <div class="mt-5">
         <a routerLink="/" class="btn btn-primary">Show Users</a>
-        <a [routerLink]="['users','signup']" class="btn btn-primary float-end">Register User</a>
+        <a class="btn btn-primary float-end" (click)="openRegisterModal()">Register
+            User</a>
     </div>
 
     <div class="mt-5">

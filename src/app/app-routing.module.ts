@@ -5,12 +5,7 @@ import { UsersComponent } from "./users/users.component";
 
 const appRoutes: Routes = [
     { path: '', redirectTo: 'users', pathMatch: 'full' },
-    {
-        path: 'users', component: UsersComponent, children: [
-            { path: 'signup', component: UserFormComponent },
-            { path: ':id/edit', component: UserFormComponent }
-        ]
-    },
+    { path: 'users', component: UsersComponent },
 
 ]
 

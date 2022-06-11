@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { User } from '../User';
 import { UsersService } from '../users.service';
 
@@ -25,39 +26,32 @@ export class UserFormComponent implements OnInit {
   cities: string[] = [];
 
   editMode: boolean = false;
-
   user: User;
-
   userId: string;
 
-  constructor(private userService: UsersService, private router: Router, private route: ActivatedRoute) { }
+
+  constructor(private userService: UsersService, private router: Router, public modalRef: BsModalRef) { }
 
   ngOnInit(): void {
 
-    this.route.params.subscribe(
-      (params: Params) => {
-        if (params['id']) {
-          this.editMode = true
-          this.userId = params['id']
-          this.userService.getUser(this.userId).subscribe(user => {
-            this.user = user;
-            const date = new Date(this.user.dob);
-            const dob = `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`
-            this.userForm.patchValue({
-              'username': this.user.username,
-              'phone': this.user.phone,
-              'email': this.user.email,
-              'dob': dob,
-              'country': this.user.country,
-              'state': this.user.state,
-              'city': this.user.city,
-              'pinCode': this.user.pinCode
-            })
-            this.cities = [user.city]
-          })
-        }
-      }
-    )
+    if (this.editMode) {
+      this.userService.getUser(this.userId).subscribe(user => {
+        this.user = user;
+        const date = new Date(this.user.dob);
+        const dob = `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`
+        this.userForm.patchValue({
+          'username': this.user.username,
+          'phone': this.user.phone,
+          'email': this.user.email,
+          'dob': dob,
+          'country': this.user.country,
+          'state': this.user.state,
+          'city': this.user.city,
+          'pinCode': this.user.pinCode
+        })
+        this.cities = [user.city]
+      })
+    }
 
     this.userService.getUsers().subscribe(users => {
       users.forEach(user => {
@@ -132,6 +126,7 @@ export class UserFormComponent implements OnInit {
       this.userService.addUser(user).subscribe();
     }
     this.router.navigate(['/'])
+    this.modalRef.hide()
   }
 
   onCancel() {

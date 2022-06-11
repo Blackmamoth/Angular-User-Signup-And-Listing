@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { UserFormComponent } from './users/user-form/user-form.component';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +10,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class AppComponent {
 
-  constructor(private router: Router) { }
+  modalRef?: BsModalRef;
+
+  constructor(private modelService: BsModalService) { }
+
+
+  openRegisterModal() {
+    this.modalRef = this.modelService.show(UserFormComponent, { class: 'modal-xl' })
+  }
 
 }

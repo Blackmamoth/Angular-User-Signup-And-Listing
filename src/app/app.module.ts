@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http'
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ModalModule } from 'ngx-bootstrap/modal'
 
 import { AppComponent } from './app.component';
 import { UsersComponent } from './users/users.component';
@@ -23,7 +24,8 @@ import { UserFormComponent } from './users/user-form/user-form.component';
     ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    ModalModule.forRoot(),
   ],
   providers: [UsersService],
   bootstrap: [AppComponent]
