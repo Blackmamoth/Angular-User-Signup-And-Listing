@@ -71,6 +71,7 @@ export class UserFormComponent implements OnInit {
     this.userForm = new FormGroup({
       'username': new FormControl(null, [Validators.required, this.usernameTaken.bind(this)]),
       'email': new FormControl(null, [Validators.required, Validators.email, this.emailTaken.bind(this)]),
+      'password': new FormControl(null, [Validators.required, Validators.minLength(6)]),
       'phone': new FormControl(null, [Validators.required, this.phoneTaken.bind(this), this.tenDigitRequired.bind(this)]),
       'dob': new FormControl(null, Validators.required),
       'country': new FormControl(null, Validators.required),
@@ -119,7 +120,7 @@ export class UserFormComponent implements OnInit {
   }
 
   onSubmit() {
-    const user: User = { username: this.userForm.get('username').value, phone: this.userForm.get('phone').value, email: this.userForm.get('email').value, dob: new Date(this.userForm.get('dob').value), country: this.userForm.get('country').value, state: this.userForm.get('state').value, city: this.userForm.get('city').value, pinCode: this.userForm.get('pinCode').value };
+    const user: User = { username: this.userForm.get('username').value, phone: this.userForm.get('phone').value, email: this.userForm.get('email').value, dob: new Date(this.userForm.get('dob').value), country: this.userForm.get('country').value, state: this.userForm.get('state').value, city: this.userForm.get('city').value, pinCode: this.userForm.get('pinCode').value, password: this.userForm.get('password').value };
     if (this.editMode) {
       this.userService.updateUser(this.user, user).subscribe()
     } else {

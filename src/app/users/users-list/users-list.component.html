@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
     <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
     <table class="table">
         <thead>
@@ -50,4 +50,12 @@
           </tr>
   </tbody>
       </table>
+</div> -->
+
+<div class="card text-bg-dark mb-3" style="max-width: 18rem;">
+    <div class="card-header">{{user.username}}</div>
+    <div class="card-body">
+        <h5 class="card-title">{{user.email}} - {{user.phone}}</h5>
+        <p class="card-text">{{user.country}} - {{user.state}} - {{user.city}}</p>
+    </div>
 </div>

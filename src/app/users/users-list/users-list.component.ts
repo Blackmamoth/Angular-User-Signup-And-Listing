@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { AuthService } from 'src/app/auth/auth.service';
 import { User } from '../User';
 import { UserFormComponent } from '../user-form/user-form.component';
 import { UsersService } from '../users.service';
@@ -16,14 +17,21 @@ export class UsersListComponent implements OnInit {
   @Input() filteredUsers: User[];
   @Input() itemsPerPage: number;
 
+  user: User = { username: '', email: '', phone: 0, pinCode: 0, country: '', state: '', city: '', password: '', dob: new Date('01-01-01') };
+
   modalRef?: BsModalRef;
 
   pageNum: number;
 
-  constructor(private userService: UsersService, private router: Router, private modalService: BsModalService) { }
+  constructor(private userService: UsersService, private router: Router, private modalService: BsModalService, private authService: AuthService) { }
 
   ngOnInit(): void {
-
+    this.authService.token.subscribe(data => {
+      const id = data._id;
+      this.userService.getUser(id).subscribe(user => {
+        this.user = user
+      })
+    })
   }
 
   deleteUser(user: User) {
