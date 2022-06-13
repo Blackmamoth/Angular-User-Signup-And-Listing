@@ -19,8 +19,8 @@ export class UsersService {
   constructor(private http: HttpClient, private authService: AuthService) { }
 
 
-  baseUrl: string = 'http://localhost:5000/api/users';
-  addressUrl: string = 'http://localhost:5000/api/address';
+  baseUrl: string = '/api/users';
+  addressUrl: string = '/api/address';
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.baseUrl, httpOptions);

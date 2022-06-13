@@ -24,10 +24,15 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  loginUrl: string = 'http://localhost:5000/api/users/login'
+  loginUrl: string = '/api/users/login'
 
   loginUser(email, password): Observable<ResponseData> {
     return this.http.post<ResponseData>(this.loginUrl, { email, password }).pipe(tap(resData => {
+      // this.handleAuth(resData)
+      if (resData.success === false) {
+        alert('Invalid credentials')
+        return;
+      }
       this.handleAuth(resData)
     }))
   }

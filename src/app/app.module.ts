@@ -14,6 +14,8 @@ import { UserFormComponent } from './users/user-form/user-form.component';
 import { AuthComponent } from './auth/auth.component';
 import { HeaderComponent } from './header/header.component';
 import { AuthInterceptor } from './auth/auth-interceptor.service';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './forgot-password/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { AuthInterceptor } from './auth/auth-interceptor.service';
     UserFormComponent,
     AuthComponent,
     HeaderComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     BrowserModule,
