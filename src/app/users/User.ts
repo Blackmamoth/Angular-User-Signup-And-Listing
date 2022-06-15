@@ -9,4 +9,5 @@ export interface User {
     state: string,
     city?: string
     pinCode: number,
+    admin?: boolean,
 }

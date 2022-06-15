@@ -17,6 +17,8 @@ export class UsersListComponent implements OnInit {
   @Input() filteredUsers: User[];
   @Input() itemsPerPage: number;
 
+  admin: boolean = false;
+
   user: User = { username: '', email: '', phone: 0, pinCode: 0, country: '', state: '', city: '', password: '', dob: new Date('01-01-01') };
 
   modalRef?: BsModalRef;
@@ -30,6 +32,9 @@ export class UsersListComponent implements OnInit {
       const id = data._id;
       this.userService.getUser(id).subscribe(user => {
         this.user = user
+        if (user.admin) {
+          this.admin = true
+        }
       })
     })
   }

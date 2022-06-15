@@ -21,13 +21,13 @@ export class UsersComponent implements OnInit {
   subscription: Subscription;
 
   constructor(private userService: UsersService, private router: Router) {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.userService.getUsers().subscribe(users => {
-          this.users = users
-        })
-      }
-    })
+    // this.router.events.subscribe(event => {
+    //   if (event instanceof NavigationEnd) {
+    //     this.userService.getUsers().subscribe(users => {
+    //       this.users = users
+    //     })
+    //   }
+    // })
   }
 
   ngOnInit(): void {

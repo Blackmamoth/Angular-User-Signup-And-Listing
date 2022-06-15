@@ -32,8 +32,9 @@ export class AuthService {
       if (resData.success === false) {
         alert('Invalid credentials')
         return;
+      } else {
+        this.handleAuth(resData)
       }
-      this.handleAuth(resData)
     }))
   }
 
