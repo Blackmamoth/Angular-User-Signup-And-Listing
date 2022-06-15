@@ -16,6 +16,7 @@ import { HeaderComponent } from './header/header.component';
 import { AuthInterceptor } from './auth/auth-interceptor.service';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './forgot-password/reset-password/reset-password.component';
+import { UserMedicinesComponent } from './users/user-medicines/user-medicines.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ResetPasswordComponent } from './forgot-password/reset-password/reset-p
     HeaderComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
+    UserMedicinesComponent,
   ],
   imports: [
     BrowserModule,

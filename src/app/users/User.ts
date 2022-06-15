@@ -10,4 +10,5 @@ export interface User {
     city?: string
     pinCode: number,
     admin?: boolean,
+    medicines?: string[]
 }

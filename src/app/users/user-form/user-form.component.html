@@ -1,161 +1,175 @@
-<h3>{{ editMode ? "Update User" : "Register User" }}</h3>
+<div class="p-3">
 
-<form class="p-3" [formGroup]="userForm" (ngSubmit)="onSubmit()">
-  <div class="mb-3 mt-3">
-    <label for="username" class="form-label h5">Username</label>
-    <input type="text" class="form-control" formControlName="username" id="username" />
+  <h3>{{ editMode ? "Update User" : "Register User" }}</h3>
 
-    <span *ngIf="
+  <button type="button" (click)="openModal()" class="btn btn-primary float-end mb-3">View medicines</button>
+
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3 mt-3">
+      <label for="username" class="form-label h5">Username</label>
+      <input type="text" class="form-control" formControlName="username" id="username" />
+
+      <span *ngIf="
         !userForm.get('username').valid && userForm.get('username').touched
       ">
-      <span *ngIf="userForm.get('username').errors['usernameIsTaken']">
-        Name is already in use </span><br />
-      <span *ngIf="userForm.get('username').errors['required']">
-        This field is required
+        <span *ngIf="userForm.get('username').errors['usernameIsTaken']">
+          Name is already in use </span><br />
+        <span *ngIf="userForm.get('username').errors['required']">
+          This field is required
+        </span>
       </span>
-    </span>
-  </div>
+    </div>
 
-  <div class="mb-3 mt-3">
-    <label for="email" class="form-label h5">Email</label>
-    <input type="email" class="form-control" formControlName="email" id="email" />
+    <div class="mb-3 mt-3">
+      <label for="email" class="form-label h5">Email</label>
+      <input type="email" class="form-control" formControlName="email" id="email" />
 
-    <span *ngIf="!userForm.get('email').valid && userForm.get('email').touched">
-      <span *ngIf="userForm.get('email').errors['emailIsTaken']">
-        Email is already in use </span><br />
-      <span *ngIf="userForm.get('email').errors['email']">
-        Please eneter a valid email which contains a '@' and a domain name </span><br />
-      <span *ngIf="userForm.get('email').errors['required']">
-        This field is required
+      <span *ngIf="!userForm.get('email').valid && userForm.get('email').touched">
+        <span *ngIf="userForm.get('email').errors['emailIsTaken']">
+          Email is already in use </span><br />
+        <span *ngIf="userForm.get('email').errors['email']">
+          Please eneter a valid email which contains a '@' and a domain name </span><br />
+        <span *ngIf="userForm.get('email').errors['required']">
+          This field is required
+        </span>
       </span>
-    </span>
-  </div>
+    </div>
 
-  <div class="mb-3 mt-3">
-    <label for="password" class="form-label h5">Password</label>
-    <input type="password" class="form-control" formControlName="password" id="password" />
+    <div class="mb-3 mt-3" *ngIf="!editMode">
+      <label for="password" class="form-label h5">Password</label>
+      <input type="password" class="form-control" formControlName="password" id="password" />
 
-    <span *ngIf="!userForm.get('password').valid && userForm.get('password').touched">
-      <span *ngIf="userForm.get('email').errors['required']">
-        This field is required
+      <span *ngIf="!userForm.get('password').valid && userForm.get('password').touched">
+        <span *ngIf="userForm.get('password').errors['required']">
+          This field is required
+        </span>
+        <span *ngIf="userForm.get('password').errors['minlength']">
+          Password must contain minimum 6 characters
+        </span>
       </span>
-      <span *ngIf="userForm.get('password').errors['minlength']">
-        Password must contain minimum 6 characters
+    </div>
+
+    <div class="mb-3 mt-3">
+      <label for="phone" class="form-label h5">Phone</label>
+      <input type="number" class="form-control" formControlName="phone" id="phone" />
+
+      <span *ngIf="!userForm.get('phone').valid && userForm.get('phone').touched">
+        <span *ngIf="userForm.get('phone').errors['phoneIsTaken']">
+          Phone number is already in use </span><br />
+        <span *ngIf="userForm.get('phone').errors['tenDigitRequired']">
+          Phone number must contain 10 digits </span><br />
+        <span *ngIf="userForm.get('phone').errors['required']">
+          This field is required
+        </span>
       </span>
-    </span>
-  </div>
+    </div>
 
-  <div class="mb-3 mt-3">
-    <label for="phone" class="form-label h5">Phone</label>
-    <input type="number" class="form-control" formControlName="phone" id="phone" />
+    <div class="mb-3 mt-3">
+      <label for="dob" class="form-label h5">DOB</label>
+      <input type="date" class="form-control" formControlName="dob" id="dob" />
 
-    <span *ngIf="!userForm.get('phone').valid && userForm.get('phone').touched">
-      <span *ngIf="userForm.get('phone').errors['phoneIsTaken']">
-        Phone number is already in use </span><br />
-      <span *ngIf="userForm.get('phone').errors['tenDigitRequired']">
-        Phone number must contain 10 digits </span><br />
-      <span *ngIf="userForm.get('phone').errors['required']">
-        This field is required
+      <span *ngIf="!userForm.get('dob').valid && userForm.get('dob').touched">
+        <span *ngIf="userForm.get('dob').errors['required']">
+          This field is required
+        </span>
       </span>
-    </span>
-  </div>
+    </div>
 
-  <div class="mb-3 mt-3">
-    <label for="dob" class="form-label h5">DOB</label>
-    <input type="date" class="form-control" formControlName="dob" id="dob" />
+    <div class="mb-3 mt-3">
+      <label for="country" class="form-label h5">Country</label>
+      <select id="country" formControlName="country" class="form-control" (change)="countryChanged()">
+        <option *ngFor="let country of countries" value="{{ country }}">
+          {{ country }}
+        </option>
+      </select>
 
-    <span *ngIf="!userForm.get('dob').valid && userForm.get('dob').touched">
-      <span *ngIf="userForm.get('dob').errors['required']">
-        This field is required
+      <span *ngIf="!userForm.get('country').valid && userForm.get('country').touched">
+        <span *ngIf="userForm.get('country').errors['required']">
+          This field is required
+        </span>
       </span>
-    </span>
-  </div>
+    </div>
 
-  <div class="mb-3 mt-3">
-    <label for="country" class="form-label h5">Country</label>
-    <select id="country" formControlName="country" class="form-control" (change)="countryChanged()">
-      <option *ngFor="let country of countries" value="{{ country }}">
-        {{ country }}
-      </option>
-    </select>
+    <div class="mb-3 mt-3">
+      <label for="state" class="form-label h5">State</label>
+      <select id="state" formControlName="state" class="form-control" (change)="stateChanged()">
+        <option *ngFor="let state of states" value="{{ state }}">
+          {{ state }}
+        </option>
+      </select>
 
-    <span *ngIf="!userForm.get('country').valid && userForm.get('country').touched">
-      <span *ngIf="userForm.get('country').errors['required']">
-        This field is required
-      </span>
-    </span>
-  </div>
-
-  <div class="mb-3 mt-3">
-    <label for="state" class="form-label h5">State</label>
-    <select id="state" formControlName="state" class="form-control" (change)="stateChanged()">
-      <option *ngFor="let state of states" value="{{ state }}">
-        {{ state }}
-      </option>
-    </select>
-
-    <span *ngIf="
+      <span *ngIf="
         !userForm.get('state').valid &&
         userForm.get('state').touched &&
         userForm.get('country').touched
       ">
-      <span *ngIf="userForm.get('state').errors['required']">
-        This field is required
-      </span>
-      <br />
-      <span *ngIf="
+        <span *ngIf="userForm.get('state').errors['required']">
+          This field is required
+        </span>
+        <br />
+        <span *ngIf="
           userForm.get('country').value === null &&
           userForm.get('state').touched
         ">
-        Please select country first
+          Please select country first
+        </span>
       </span>
-    </span>
-  </div>
+    </div>
 
-  <div class="mb-3 mt-3">
-    <label for="city" class="form-label h5">City</label>
-    <select id="city" formControlName="city" class="form-control">
-      <option *ngFor="let city of cities" value="{{ city }}">{{ city }}</option>
-    </select>
+    <div formArrayName="medicines">
+      <h5>Your Medicines</h5>
+      <button class="btn btn-primary btn-sm" type="button" (click)="onAddMedicine()">Add Medicine</button>
+      <div class="mb-3 mt-3" *ngFor="let control of getMedicineControls(); let i = index">
+        <input type="text" class="form-control" [formControlName]="i">
+      </div>
+    </div>
 
-    <span *ngIf="
+    <div class="mb-3 mt-3">
+      <label for="city" class="form-label h5">City</label>
+      <select id="city" formControlName="city" class="form-control">
+        <option *ngFor="let city of cities" value="{{ city }}">{{ city }}</option>
+      </select>
+
+      <span *ngIf="
         !userForm.get('city').valid &&
         userForm.get('state').touched &&
         userForm.get('country').touched
       ">
-      <span *ngIf="userForm.get('city').errors['required']">
-        This field is required
-      </span>
-      <br />
-      <span *ngIf="
+        <span *ngIf="userForm.get('city').errors['required']">
+          This field is required
+        </span>
+        <br />
+        <span *ngIf="
           userForm.get('country').value === null &&
           userForm.get('state').value === null
         ">
-        Please select country and state first
+          Please select country and state first
+        </span>
       </span>
-    </span>
-  </div>
+    </div>
 
-  <div class="mb-3 mt-3">
-    <label for="pinCode" class="form-label h5">Pin/Postal Code</label>
-    <input type="number" [maxlength]="6" formControlName="pinCode" class="form-control" />
+    <div class="mb-3 mt-3">
+      <label for="pinCode" class="form-label h5">Pin/Postal Code</label>
+      <input type="number" [maxlength]="6" formControlName="pinCode" class="form-control" />
 
-    <span *ngIf="!userForm.get('pinCode').valid && userForm.get('pinCode').touched">
-      <span *ngIf="userForm.get('pinCode').errors['required']">
-        This field is required
+      <span *ngIf="!userForm.get('pinCode').valid && userForm.get('pinCode').touched">
+        <span *ngIf="userForm.get('pinCode').errors['required']">
+          This field is required
+        </span>
+        <span *ngIf="userForm.get('pinCode').errors['sixDigitRequired']">
+          Pin Code must contain only 6 digits
+        </span>
       </span>
-      <span *ngIf="userForm.get('pinCode').errors['sixDigitRequired']">
-        Pin Code must contain only 6 digits
-      </span>
-    </span>
-  </div>
+    </div>
 
-  <div class="mb-3 mt-3">
-    <button type="submit" [disabled]="!userForm.valid && !editMode" class="btn btn-primary me-2">
-      {{ editMode ? "Update" : "Register" }}
-    </button>
-    <button type="button" class="btn btn-danger" (click)="modalRef.hide()">
-      Cancel
-    </button>
-  </div>
-</form>
+    <div class="mb-3 mt-3">
+      <button type="submit" [disabled]="!userForm.valid && !editMode" class="btn btn-primary me-2">
+        {{ editMode ? "Update" : "Register" }}
+      </button>
+      <button type="button" class="btn btn-danger" (click)="modalRef.hide()">
+        Cancel
+      </button>
+    </div>
+
+  </form>
+</div>

@@ -1,8 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Form, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { User } from '../User';
+import { UserMedicinesComponent } from '../user-medicines/user-medicines.component';
 import { UsersService } from '../users.service';
 
 @Component({
@@ -17,6 +18,8 @@ export class UserFormComponent implements OnInit {
 
   userForm: FormGroup;
 
+  modalRef2: BsModalRef | null;
+
   usernames: string[] = [];
   emails: string[] = [];
   phones: number[] = [];
@@ -29,11 +32,13 @@ export class UserFormComponent implements OnInit {
   user: User;
   userId: string;
 
+  medicines: FormArray = new FormArray([]);
 
-  constructor(private userService: UsersService, private router: Router, public modalRef: BsModalRef) { }
+
+  constructor(private userService: UsersService, private router: Router, public modalRef: BsModalRef, private modalService: BsModalService) { }
 
   ngOnInit(): void {
-
+    // console.log(this.user.medicines)
     if (this.editMode) {
       this.userService.getUser(this.userId).subscribe(user => {
         this.user = user;
@@ -47,8 +52,22 @@ export class UserFormComponent implements OnInit {
           'country': this.user.country,
           'state': this.user.state,
           'city': this.user.city,
-          'pinCode': this.user.pinCode
+          'pinCode': this.user.pinCode,
         })
+        if (this.user.medicines) {
+          // for (let medicine of this.user.medicines) {
+          //   this.medicines.push(
+          //     new FormGroup({
+          //       'medicine': new FormControl(medicine)
+          //     })
+          //   )
+          // }
+          user.medicines.forEach((medicine) => {
+            this.medicines.push(
+              new FormControl(medicine)
+            )
+          })
+        }
         this.cities = [user.city]
       })
     }
@@ -77,7 +96,8 @@ export class UserFormComponent implements OnInit {
       'country': new FormControl(null, Validators.required),
       'state': new FormControl(null, Validators.required),
       'city': new FormControl(null, Validators.required),
-      'pinCode': new FormControl(null, [Validators.required, this.sixDigitRequired.bind(this)])
+      'pinCode': new FormControl(null, [Validators.required, this.sixDigitRequired.bind(this)]),
+      'medicines': this.medicines
     })
 
   }
@@ -120,9 +140,12 @@ export class UserFormComponent implements OnInit {
   }
 
   onSubmit() {
-    const user: User = { username: this.userForm.get('username').value, phone: this.userForm.get('phone').value, email: this.userForm.get('email').value, dob: new Date(this.userForm.get('dob').value), country: this.userForm.get('country').value, state: this.userForm.get('state').value, city: this.userForm.get('city').value, pinCode: this.userForm.get('pinCode').value, password: this.userForm.get('password').value };
+    const user: User = { username: this.userForm.get('username').value, phone: this.userForm.get('phone').value, email: this.userForm.get('email').value, dob: new Date(this.userForm.get('dob').value), country: this.userForm.get('country').value, state: this.userForm.get('state').value, city: this.userForm.get('city').value, pinCode: this.userForm.get('pinCode').value, password: this.userForm.get('password').value || this.user.password, medicines: this.userForm.get('medicines').value };
     if (this.editMode) {
-      this.userService.updateUser(this.user, user).subscribe()
+      const proceed = confirm('Are you sure you want to update this information?')
+      if (proceed) {
+        this.userService.updateUser(this.user, user).subscribe();
+      }
     } else {
       this.userService.addUser(user).subscribe();
     }
@@ -130,8 +153,21 @@ export class UserFormComponent implements OnInit {
     this.modalRef.hide()
   }
 
+  onAddMedicine() {
+    const control = new FormControl(null, Validators.required);
+    (<FormArray>this.userForm.get('medicines')).push(control)
+  }
+
+  getMedicineControls() {
+    return (<FormArray>this.userForm.get('medicines')).controls;
+  }
+
   onCancel() {
     this.router.navigate(['/'])
+  }
+
+  openModal() {
+    this.modalRef2 = this.modalService.show(UserMedicinesComponent, { class: 'modal-lg', initialState: { medicines: this.user.medicines } })
   }
 
   countryChanged() {

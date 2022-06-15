@@ -1,0 +1,18 @@
+<div class="p-3">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Sr. no</th>
+                <th scope="col">Medicines</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let medicine of medicines; let i = index">
+                <th scope="row">{{i+1}}</th>
+                <td>{{medicine}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-danger" (click)="modalRef.hide()">Close</button>
+</div>
