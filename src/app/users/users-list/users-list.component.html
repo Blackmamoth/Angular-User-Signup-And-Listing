@@ -59,6 +59,9 @@
         <p class="card-text">{{user.country}} - {{user.state}} - {{user.city}}</p>
     </div>
     <div class="m-3">
-        <button class="btn btn-primary text-center" (click)="edit(user)">Update Profile</button>
+        <span>
+            <button class="btn btn-primary text-center mb-3" (click)="edit(user)">Update Profile</button>
+            <button class="btn btn-primary text-center" (click)="showMedicines()">Show Medicines</button>
+        </span>
     </div>
 </div>

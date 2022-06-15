@@ -2,8 +2,6 @@
 
   <h3>{{ editMode ? "Update User" : "Register User" }}</h3>
 
-  <button type="button" (click)="openModal()" class="btn btn-primary float-end mb-3">View medicines</button>
-
   <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
     <div class="mb-3 mt-3">
       <label for="username" class="form-label h5">Username</label>

@@ -4,6 +4,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AuthService } from 'src/app/auth/auth.service';
 import { User } from '../User';
 import { UserFormComponent } from '../user-form/user-form.component';
+import { UserMedicinesComponent } from '../user-medicines/user-medicines.component';
 import { UsersService } from '../users.service';
 
 @Component({
@@ -52,7 +53,10 @@ export class UsersListComponent implements OnInit {
   edit(user: User) {
     // this.router.navigate([user._id, 'edit'], { relativeTo: this.route })
     this.modalRef = this.modalService.show(UserFormComponent, { class: 'modal-xl', id: user._id, initialState: { editMode: true, userId: user._id } },)
+  }
 
+  showMedicines() {
+    this.modalRef = this.modalService.show(UserMedicinesComponent, { class: 'modal-lg', id: this.user._id, initialState: { medicines: this.user.medicines } })
   }
 
   pageChanged(pageNum) {
