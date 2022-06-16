@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { User } from '../User';
 import { UsersService } from '../users.service';
@@ -16,10 +17,18 @@ export class UserMedicinesComponent implements OnInit {
 
   _id: string;
 
-  constructor(public modalRef: BsModalRef) { }
+  constructor(private userService: UsersService, private router: Router) { }
 
   ngOnInit(): void {
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    this._id = userData._id
+    this.userService.getUser(this._id).subscribe(user => {
+      this.medicines = user.medicines
+    })
+  }
 
+  onClose() {
+    this.router.navigate([''])
   }
 
 }

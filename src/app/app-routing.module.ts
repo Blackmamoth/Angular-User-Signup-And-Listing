@@ -5,11 +5,17 @@ import { AuthGuard } from "./auth/auth.guard";
 import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
 import { ResetPasswordComponent } from "./forgot-password/reset-password/reset-password.component";
 import { UserFormComponent } from "./users/user-form/user-form.component";
+import { UserMedicinesComponent } from "./users/user-medicines/user-medicines.component";
 import { UsersComponent } from "./users/users.component";
 
 const appRoutes: Routes = [
     { path: '', redirectTo: 'users', pathMatch: 'full' },
-    { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
+    {
+        path: 'users', component: UsersComponent, canActivate: [AuthGuard], children: [
+            { path: 'edit/:id', component: UserFormComponent },
+            { path: 'medicines', component: UserMedicinesComponent }
+        ]
+    },
     { path: 'login', component: AuthComponent },
     { path: 'register', component: UserFormComponent },
     { path: 'forgot-password', component: ForgotPasswordComponent },

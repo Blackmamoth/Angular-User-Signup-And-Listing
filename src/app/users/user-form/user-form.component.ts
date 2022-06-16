@@ -35,10 +35,19 @@ export class UserFormComponent implements OnInit {
   medicines: FormArray = new FormArray([]);
 
 
-  constructor(private userService: UsersService, private router: Router, public modalRef: BsModalRef, private modalService: BsModalService) { }
+  constructor(private userService: UsersService, private router: Router, public modalRef: BsModalRef, private modalService: BsModalService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    // console.log(this.user.medicines)
+
+    this.route.params.subscribe(
+      (params: Params) => {
+        if (params['id']) {
+          this.editMode = true
+          this.userId = params['id']
+        }
+      }
+    )
+
     if (this.editMode) {
       this.userService.getUser(this.userId).subscribe(user => {
         this.user = user;
@@ -55,13 +64,6 @@ export class UserFormComponent implements OnInit {
           'pinCode': this.user.pinCode,
         })
         if (this.user.medicines) {
-          // for (let medicine of this.user.medicines) {
-          //   this.medicines.push(
-          //     new FormGroup({
-          //       'medicine': new FormControl(medicine)
-          //     })
-          //   )
-          // }
           user.medicines.forEach((medicine) => {
             this.medicines.push(
               new FormControl(medicine)

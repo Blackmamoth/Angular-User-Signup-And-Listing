@@ -26,7 +26,7 @@ export class UsersListComponent implements OnInit {
 
   pageNum: number;
 
-  constructor(private userService: UsersService, private router: Router, private modalService: BsModalService, private authService: AuthService) { }
+  constructor(private userService: UsersService, private router: Router, private modalService: BsModalService, private authService: AuthService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.authService.token.subscribe(data => {
@@ -52,11 +52,13 @@ export class UsersListComponent implements OnInit {
 
   edit(user: User) {
     // this.router.navigate([user._id, 'edit'], { relativeTo: this.route })
-    this.modalRef = this.modalService.show(UserFormComponent, { class: 'modal-xl', id: user._id, initialState: { editMode: true, userId: user._id } },)
+    // this.modalRef = this.modalService.show(UserFormComponent, { class: 'modal-xl', id: user._id, initialState: { editMode: true, userId: user._id } },)
+    this.router.navigate(['edit', user._id], { relativeTo: this.route })
   }
 
   showMedicines() {
-    this.modalRef = this.modalService.show(UserMedicinesComponent, { class: 'modal-lg', id: this.user._id, initialState: { medicines: this.user.medicines } })
+    // this.modalRef = this.modalService.show(UserMedicinesComponent, { class: 'modal-lg', id: this.user._id, initialState: { medicines: this.user.medicines } })
+    this.router.navigate(['medicines'], { relativeTo: this.route })
   }
 
   pageChanged(pageNum) {
