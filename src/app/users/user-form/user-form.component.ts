@@ -34,6 +34,12 @@ export class UserFormComponent implements OnInit {
 
   medicines: FormArray = new FormArray([]);
 
+  writePrivilege: boolean = false;
+
+  adminMode: boolean = false;
+
+  privileges: string[] = ['read', 'readwrite', 'admin']
+
 
   constructor(private userService: UsersService, private router: Router, public modalRef: BsModalRef, private modalService: BsModalService, private route: ActivatedRoute) { }
 
@@ -45,34 +51,43 @@ export class UserFormComponent implements OnInit {
           this.editMode = true
           this.userId = params['id']
         }
-      }
-    )
-
-    if (this.editMode) {
-      this.userService.getUser(this.userId).subscribe(user => {
-        this.user = user;
-        const date = new Date(this.user.dob);
-        const dob = `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`
-        this.userForm.patchValue({
-          'username': this.user.username,
-          'phone': this.user.phone,
-          'email': this.user.email,
-          'dob': dob,
-          'country': this.user.country,
-          'state': this.user.state,
-          'city': this.user.city,
-          'pinCode': this.user.pinCode,
-        })
-        if (this.user.medicines) {
-          user.medicines.forEach((medicine) => {
-            this.medicines.push(
-              new FormControl(medicine)
-            )
+        if (this.editMode) {
+          this.userService.getUser(this.userId).subscribe(user => {
+            this.user = user;
+            console.log(this.user.privilege)
+            this.userForm.patchValue({
+              'username': this.user.username,
+              'phone': this.user.phone,
+              'email': this.user.email,
+              'dob': this.user.dob,
+              'country': this.user.country,
+              'state': this.user.state,
+              'city': this.user.city,
+              'pinCode': this.user.pinCode,
+              'privilege': this.user.privilege
+            })
+            if (this.user.medicines) {
+              user.medicines.forEach((medicine) => {
+                this.medicines.push(
+                  new FormControl(medicine)
+                )
+              })
+            }
+            const userData = JSON.parse(localStorage.getItem('userData'))
+            const adminUser = this.userService.getUser(userData._id).subscribe(user => {
+              if (user.admin) {
+                this.adminMode = true
+              }
+            })
+            this.cities = [user.city]
+            this.writePrivilege = this.user.privilege === 'read' ? false : true;
           })
         }
-        this.cities = [user.city]
-      })
-    }
+      }
+
+    )
+
+
 
     this.userService.getUsers().subscribe(users => {
       users.forEach(user => {
@@ -99,7 +114,8 @@ export class UserFormComponent implements OnInit {
       'state': new FormControl(null, Validators.required),
       'city': new FormControl(null, Validators.required),
       'pinCode': new FormControl(null, [Validators.required, this.sixDigitRequired.bind(this)]),
-      'medicines': this.medicines
+      'medicines': this.medicines,
+      'privilege': new FormControl(null),
     })
 
   }
@@ -142,7 +158,7 @@ export class UserFormComponent implements OnInit {
   }
 
   onSubmit() {
-    const user: User = { username: this.userForm.get('username').value, phone: this.userForm.get('phone').value, email: this.userForm.get('email').value, dob: new Date(this.userForm.get('dob').value), country: this.userForm.get('country').value, state: this.userForm.get('state').value, city: this.userForm.get('city').value, pinCode: this.userForm.get('pinCode').value, password: this.userForm.get('password').value || this.user.password, medicines: this.userForm.get('medicines').value };
+    const user: User = { username: this.userForm.get('username').value, phone: this.userForm.get('phone').value, email: this.userForm.get('email').value, dob: new Date(this.userForm.get('dob').value), country: this.userForm.get('country').value, state: this.userForm.get('state').value, city: this.userForm.get('city').value, pinCode: this.userForm.get('pinCode').value, privilege: this.userForm.get('privilege').value || this.user.privilege, password: this.userForm.get('password').value || this.user.password, medicines: this.userForm.get('medicines').value };
     if (this.editMode) {
       const proceed = confirm('Are you sure you want to update this information?')
       if (proceed) {

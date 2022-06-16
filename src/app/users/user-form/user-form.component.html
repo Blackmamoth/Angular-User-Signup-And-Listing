@@ -2,6 +2,8 @@
 
   <h3>{{ editMode ? "Update User" : "Register User" }}</h3>
 
+  <h4 *ngIf="!writePrivilege">You don't have the write privileges</h4>
+
   <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
     <div class="mb-3 mt-3">
       <label for="username" class="form-label h5">Username</label>
@@ -146,6 +148,13 @@
       </span>
     </div>
 
+    <div class="mb-3 mt-3" *ngIf="adminMode">
+      <label for="privilege" class="form-label h5">Privilege</label>
+      <select id="privilege" formControlName="privilege" class="form-control">
+        <option *ngFor="let privilege of privileges" value="{{privilege}}">{{privilege}}</option>
+      </select>
+    </div>
+
     <div class="mb-3 mt-3">
       <label for="pinCode" class="form-label h5">Pin/Postal Code</label>
       <input type="number" [maxlength]="6" formControlName="pinCode" class="form-control" />
@@ -161,10 +170,10 @@
     </div>
 
     <div class="mb-3 mt-3">
-      <button type="submit" [disabled]="!userForm.valid && !editMode" class="btn btn-primary me-2">
+      <button type="submit" [disabled]="!userForm.valid && !writePrivilege" class="btn btn-primary me-2">
         {{ editMode ? "Update" : "Register" }}
       </button>
-      <button type="button" class="btn btn-danger" (click)="modalRef.hide()">
+      <button type="button" class="btn btn-danger" (click)="onCancel()">
         Cancel
       </button>
     </div>
