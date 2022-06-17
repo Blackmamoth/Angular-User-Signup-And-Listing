@@ -32,7 +32,10 @@
         </span>
     </div>
 
-    <button [disabled]="!signInForm.valid" type="submit" class="btn btn-primary">Sign In</button>
+    <span>
+        <button [disabled]="!signInForm.valid" type="submit" class="btn btn-primary me-3">Sign In</button>
+        <button class="btn btn-primary" (click)="toSignUp()">Sign Up</button>
+    </span>
 </form>
 
 <span>

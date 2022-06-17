@@ -34,7 +34,7 @@ export class UserFormComponent implements OnInit {
 
   medicines: FormArray = new FormArray([]);
 
-  writePrivilege: boolean = false;
+  writePrivilege: boolean = true;
 
   adminMode: boolean = false;
 
@@ -158,7 +158,7 @@ export class UserFormComponent implements OnInit {
   }
 
   onSubmit() {
-    const user: User = { username: this.userForm.get('username').value, phone: this.userForm.get('phone').value, email: this.userForm.get('email').value, dob: new Date(this.userForm.get('dob').value), country: this.userForm.get('country').value, state: this.userForm.get('state').value, city: this.userForm.get('city').value, pinCode: this.userForm.get('pinCode').value, privilege: this.userForm.get('privilege').value || this.user.privilege, password: this.userForm.get('password').value || this.user.password, medicines: this.userForm.get('medicines').value };
+    const user: User = { username: this.userForm.get('username').value, phone: this.userForm.get('phone').value, email: this.userForm.get('email').value, dob: new Date(this.userForm.get('dob').value), country: this.userForm.get('country').value, state: this.userForm.get('state').value, city: this.userForm.get('city').value, pinCode: this.userForm.get('pinCode').value, privilege: this.userForm.get('privilege').value || 'read', password: this.userForm.get('password').value || this.user.password, medicines: this.userForm.get('medicines').value };
     if (this.editMode) {
       const proceed = confirm('Are you sure you want to update this information?')
       if (proceed) {
@@ -218,7 +218,6 @@ export class UserFormComponent implements OnInit {
         }
       })
     })
-    console.log('called')
   }
 
 

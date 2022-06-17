@@ -13,7 +13,7 @@ export class UserMedicinesComponent implements OnInit {
 
   // user: User;
 
-  medicines: string[]
+  medicines: string[] = [];
 
   _id: string;
 

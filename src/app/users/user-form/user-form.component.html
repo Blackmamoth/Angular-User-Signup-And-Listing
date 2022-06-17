@@ -2,7 +2,7 @@
 
   <h3>{{ editMode ? "Update User" : "Register User" }}</h3>
 
-  <h4 *ngIf="!writePrivilege">You don't have the write privileges</h4>
+  <h4 *ngIf="editMode && !writePrivilege">You don't have the write privileges</h4>
 
   <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
     <div class="mb-3 mt-3">
@@ -116,7 +116,7 @@
       </span>
     </div>
 
-    <div formArrayName="medicines">
+    <div formArrayName="medicines" *ngIf="editMode">
       <h5>Your Medicines</h5>
       <button class="btn btn-primary btn-sm" type="button" (click)="onAddMedicine()">Add Medicine</button>
       <div class="mb-3 mt-3" *ngFor="let control of getMedicineControls(); let i = index">
@@ -170,7 +170,10 @@
     </div>
 
     <div class="mb-3 mt-3">
-      <button type="submit" [disabled]="!userForm.valid && !writePrivilege" class="btn btn-primary me-2">
+      <button type="submit" *ngIf="!editMode" [disabled]="!userForm.valid" class="btn btn-primary me-2">
+        {{ editMode ? "Update" : "Register" }}
+      </button>
+      <button type="submit" *ngIf="editMode" [disabled]="!writePrivilege && !adminMode" class="btn btn-primary me-2">
         {{ editMode ? "Update" : "Register" }}
       </button>
       <button type="button" class="btn btn-danger" (click)="onCancel()">

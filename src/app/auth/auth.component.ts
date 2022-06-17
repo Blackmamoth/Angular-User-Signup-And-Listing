@@ -37,5 +37,9 @@ export class AuthComponent implements OnInit {
     this.signInForm.reset()
   }
 
+  toSignUp() {
+    this.router.navigate(['/register']);
+  }
+
 
 }
