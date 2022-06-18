@@ -60,8 +60,8 @@
     </div>
     <div class="m-3">
         <span>
-            <button class="btn btn-primary text-center mb-3" (click)="edit(user)">Update Profile</button>
-            <button class="btn btn-primary text-center" (click)="showMedicines()">Show Medicines</button>
+            <button *ngIf="showUpdateProfile" class="btn btn-primary text-center mb-3" (click)="edit(user)">Update Profile</button>
+            <button *ngIf="showMedicinesBtn" class="btn btn-primary text-center" (click)="showMedicines()">Show Medicines</button>
         </span>
     </div>
 </div>

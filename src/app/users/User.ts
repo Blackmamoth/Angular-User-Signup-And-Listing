@@ -11,5 +11,5 @@ export interface User {
     pinCode: number,
     admin?: boolean,
     medicines?: string[],
-    privilege?: string,
+    roles?: string,
 }

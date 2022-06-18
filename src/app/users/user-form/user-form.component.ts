@@ -34,12 +34,10 @@ export class UserFormComponent implements OnInit {
 
   medicines: FormArray = new FormArray([]);
 
-  writePrivilege: boolean = true;
 
   adminMode: boolean = false;
 
-  privileges: string[] = ['read', 'readwrite', 'admin']
-
+  showUpdateProfile: boolean = false;
 
   constructor(private userService: UsersService, private router: Router, public modalRef: BsModalRef, private modalService: BsModalService, private route: ActivatedRoute) { }
 
@@ -54,17 +52,18 @@ export class UserFormComponent implements OnInit {
         if (this.editMode) {
           this.userService.getUser(this.userId).subscribe(user => {
             this.user = user;
-            console.log(this.user.privilege)
+            const date = new Date(this.user.dob);
+            const dob = date.toISOString().split('T')[0]
             this.userForm.patchValue({
               'username': this.user.username,
               'phone': this.user.phone,
               'email': this.user.email,
-              'dob': this.user.dob,
+              'dob': dob,
               'country': this.user.country,
               'state': this.user.state,
               'city': this.user.city,
               'pinCode': this.user.pinCode,
-              'privilege': this.user.privilege
+              'privilege': this.user.roles
             })
             if (this.user.medicines) {
               user.medicines.forEach((medicine) => {
@@ -74,13 +73,12 @@ export class UserFormComponent implements OnInit {
               })
             }
             const userData = JSON.parse(localStorage.getItem('userData'))
-            const adminUser = this.userService.getUser(userData._id).subscribe(user => {
+            this.userService.getUser(userData._id).subscribe(user => {
               if (user.admin) {
                 this.adminMode = true
               }
             })
             this.cities = [user.city]
-            this.writePrivilege = this.user.privilege === 'read' ? false : true;
           })
         }
       }
@@ -96,6 +94,8 @@ export class UserFormComponent implements OnInit {
         this.phones.push(user.phone);
       })
     })
+
+    
 
     this.userService.getCities().subscribe(cities => {
       cities.forEach(city => {
@@ -115,9 +115,14 @@ export class UserFormComponent implements OnInit {
       'city': new FormControl(null, Validators.required),
       'pinCode': new FormControl(null, [Validators.required, this.sixDigitRequired.bind(this)]),
       'medicines': this.medicines,
-      'privilege': new FormControl(null),
+      'role': new FormControl(null),
     })
 
+  }
+
+  watchDate(){
+    const dob = this.userForm.get('dob').value;
+    console.log(typeof dob)
   }
 
   usernameTaken(control: FormControl): { [s: string]: boolean } {
@@ -158,7 +163,7 @@ export class UserFormComponent implements OnInit {
   }
 
   onSubmit() {
-    const user: User = { username: this.userForm.get('username').value, phone: this.userForm.get('phone').value, email: this.userForm.get('email').value, dob: new Date(this.userForm.get('dob').value), country: this.userForm.get('country').value, state: this.userForm.get('state').value, city: this.userForm.get('city').value, pinCode: this.userForm.get('pinCode').value, privilege: this.userForm.get('privilege').value || 'read', password: this.userForm.get('password').value || this.user.password, medicines: this.userForm.get('medicines').value };
+    const user: User = { username: this.userForm.get('username').value, phone: this.userForm.get('phone').value, email: this.userForm.get('email').value, dob: new Date(this.userForm.get('dob').value), country: this.userForm.get('country').value, state: this.userForm.get('state').value, city: this.userForm.get('city').value, pinCode: this.userForm.get('pinCode').value, roles: this.userForm.get('role').value || 'read', password: this.userForm.get('password').value || this.user.password, medicines: this.userForm.get('medicines').value };
     if (this.editMode) {
       const proceed = confirm('Are you sure you want to update this information?')
       if (proceed) {

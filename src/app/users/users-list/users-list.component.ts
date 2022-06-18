@@ -26,6 +26,9 @@ export class UsersListComponent implements OnInit {
 
   pageNum: number;
 
+  showUpdateProfile: boolean = false;
+  showMedicinesBtn: boolean = false;
+
   constructor(private userService: UsersService, private router: Router, private modalService: BsModalService, private authService: AuthService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -35,6 +38,12 @@ export class UsersListComponent implements OnInit {
         this.user = user
         if (user.admin) {
           this.admin = true
+        }
+        if(user.roles === 'add'){
+          this.showUpdateProfile = true;
+        }
+        if(user.roles === 'view'){
+          this.showMedicinesBtn = true
         }
       })
     })
