@@ -39,10 +39,10 @@ export class UsersListComponent implements OnInit {
         if (user.admin) {
           this.admin = true
         }
-        if(user.roles === 'add'){
+        if (user.roles === 'add') {
           this.showUpdateProfile = true;
         }
-        if(user.roles === 'view'){
+        if (user.roles === 'view') {
           this.showMedicinesBtn = true
         }
       })
@@ -74,4 +74,7 @@ export class UsersListComponent implements OnInit {
     this.pageNum = pageNum;
   }
 
+  showMedia() {
+    this.router.navigate(['media'], { relativeTo: this.route })
+  }
 }

@@ -34,6 +34,7 @@ export class UserFormComponent implements OnInit {
 
   medicines: FormArray = new FormArray([]);
 
+  roles: string[] = ["view", "add", "none"]
 
   adminMode: boolean = false;
 
@@ -63,7 +64,7 @@ export class UserFormComponent implements OnInit {
               'state': this.user.state,
               'city': this.user.city,
               'pinCode': this.user.pinCode,
-              'privilege': this.user.roles
+              'role': this.user.roles
             })
             if (this.user.medicines) {
               user.medicines.forEach((medicine) => {
@@ -95,12 +96,11 @@ export class UserFormComponent implements OnInit {
       })
     })
 
-    
+
 
     this.userService.getCities().subscribe(cities => {
       cities.forEach(city => {
         this.pushToArrayIfNotItemExists(this.countries, city.country_name)
-        this.pushToArrayIfNotItemExists(this.states, city.state_name)
       })
     })
 
@@ -120,7 +120,7 @@ export class UserFormComponent implements OnInit {
 
   }
 
-  watchDate(){
+  watchDate() {
     const dob = this.userForm.get('dob').value;
     console.log(typeof dob)
   }
@@ -195,21 +195,10 @@ export class UserFormComponent implements OnInit {
 
   countryChanged() {
     const country = this.userForm.get('country').value
-    this.cities = [];
     this.states = [];
     this.userService.getStates().subscribe(states => {
-      states.forEach(state => {
-        if (state.country_name === country) {
-          this.states.push(state.name)
-        }
-      })
-    })
-    this.userService.getCities().subscribe(cities => {
-      cities.forEach(city => {
-        if (city.country_name === country) {
-          this.cities.push(city.name)
-        }
-      })
+      const filteredStates: any[] = states.filter(s => s.country_name === country)
+      this.states = filteredStates.map(s => s.name)
     })
   }
 
@@ -217,11 +206,8 @@ export class UserFormComponent implements OnInit {
     const state = this.userForm.get('state').value;
     this.cities = [];
     this.userService.getCities().subscribe(cities => {
-      cities.forEach(city => {
-        if (city.state_name === state) {
-          this.cities.push(city.name)
-        }
-      })
+      const filteredCities = cities.filter(c => c.state_name === state)
+      this.cities = filteredCities.map(c => c.name)
     })
   }
 

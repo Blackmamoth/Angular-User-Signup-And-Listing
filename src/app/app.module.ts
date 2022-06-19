@@ -17,6 +17,7 @@ import { AuthInterceptor } from './auth/auth-interceptor.service';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './forgot-password/reset-password/reset-password.component';
 import { UserMedicinesComponent } from './users/user-medicines/user-medicines.component';
+import { MediaUploadComponent } from './users/media-upload/media-upload.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { UserMedicinesComponent } from './users/user-medicines/user-medicines.co
     ForgotPasswordComponent,
     ResetPasswordComponent,
     UserMedicinesComponent,
+    MediaUploadComponent,
   ],
   imports: [
     BrowserModule,

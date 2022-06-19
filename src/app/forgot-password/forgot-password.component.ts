@@ -23,7 +23,7 @@ export class ForgotPasswordComponent implements OnInit {
   onSubmit() {
     const email = this.emailForm.get('email').value;
     this.passwordService.forgotPassword(email).subscribe(user => {
-      this.router.navigate(['/resetPassword', 'reset', user.token._id])
+      alert('You will receive an email containing the reset link')
     }, (err) => {
       alert('User with that email not found')
     })
