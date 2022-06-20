@@ -58,12 +58,12 @@ export class UsersService {
     return this.http.get<any[]>(`${this.addressUrl}/countries`);
   }
 
-  getStates(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.addressUrl}/states`);
+  getStates(country): Observable<any[]> {
+    return this.http.get<any[]>(`${this.addressUrl}/states`, { params: { country } });
   }
 
-  getCities(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.addressUrl}/cities`)
+  getCities(state): Observable<any[]> {
+    return this.http.get<any[]>(`${this.addressUrl}/cities`, { params: { state } })
   }
 
 }

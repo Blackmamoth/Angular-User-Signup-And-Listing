@@ -98,9 +98,14 @@ export class UserFormComponent implements OnInit {
 
 
 
-    this.userService.getCities().subscribe(cities => {
-      cities.forEach(city => {
-        this.pushToArrayIfNotItemExists(this.countries, city.country_name)
+    // this.userService.getCities('').subscribe(cities => {
+    //   cities.forEach(city => {
+    //     this.pushToArrayIfNotItemExists(this.countries, city.country_name)
+    //   })
+    // })
+    this.userService.getCountries().subscribe(countries => {
+      countries.forEach(country => {
+        this.pushToArrayIfNotItemExists(this.countries, country.name)
       })
     })
 
@@ -196,18 +201,24 @@ export class UserFormComponent implements OnInit {
   countryChanged() {
     const country = this.userForm.get('country').value
     this.states = [];
-    this.userService.getStates().subscribe(states => {
-      const filteredStates: any[] = states.filter(s => s.country_name === country)
-      this.states = filteredStates.map(s => s.name)
+    this.userService.getStates(country).subscribe(states => {
+      states.forEach(state => {
+        this.states.push(state.name)
+      })
+      // const filteredStates: any[] = states.filter(s => s.country_name === country)
+      // this.states = filteredStates.map(s => s.name)
     })
   }
 
   stateChanged() {
     const state = this.userForm.get('state').value;
     this.cities = [];
-    this.userService.getCities().subscribe(cities => {
-      const filteredCities = cities.filter(c => c.state_name === state)
-      this.cities = filteredCities.map(c => c.name)
+    this.userService.getCities(state).subscribe(cities => {
+      cities.forEach(city => {
+        this.cities.push(city.name)
+      })
+      // const filteredCities = cities.filter(c => c.state_name === state)
+      // this.cities = filteredCities.map(c => c.name)
     })
   }
 

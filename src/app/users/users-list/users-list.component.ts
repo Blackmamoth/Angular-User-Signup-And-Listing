@@ -74,7 +74,7 @@ export class UsersListComponent implements OnInit {
     this.pageNum = pageNum;
   }
 
-  showMedia() {
+  showImage() {
     this.router.navigate(['media'], { relativeTo: this.route })
   }
 }

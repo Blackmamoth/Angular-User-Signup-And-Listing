@@ -7,14 +7,28 @@ import { Injectable } from '@angular/core';
 export class FileUploadServices {
 
 
-  baseUrl: string = 'http://localhost:5000/api/media/upload';
+  baseUrl: string = '/api/media';
 
   constructor(private http: HttpClient) { }
 
-  uploadImage(file) {
+  uploadImage(file): any {
     const formData = new FormData();
     formData.append('file', file, file.name)
-    return this.http.post(this.baseUrl, formData);
+    return this.http.patch(`${this.baseUrl}/uploadImg`, formData);
+  }
+
+  uploadVideo(file): any {
+    const formData = new FormData();
+    formData.append('file', file, file.name)
+    return this.http.patch(`${this.baseUrl}/uploadVid`, formData)
+  }
+
+  getImage(id): any {
+    return this.http.post(`${this.baseUrl}/retrieveImg`, { id })
+  }
+
+  getVideo(id): any {
+    return this.http.post(`${this.baseUrl}/retrieveVid`, { id })
   }
 
 }

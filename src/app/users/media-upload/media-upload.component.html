@@ -1,21 +1,37 @@
 <div class="p-2">
     <h3>Upload Media</h3>
 
+    <img [src]="imageUrl" alt="" width="200px" class="rounded-circle">
+
     <form class="p-3" [formGroup]="mediaForm" (ngSubmit)="onUpload()" enctype="multipart/form-data">
         
         <div class="mb-3 mt-3">
             <label for="profilePic" class="form-label" >Profile Pic</label>
-            <input type="file" formControlName="profilePic"  id="profilePic" (change)="onChange($event)" class="form-control">
+            <input type="file" formControlName="profilePic"  id="profilePic" (change)="onChangeImage($event)" class="form-control">
+
+            <span *ngIf="!mediaForm.get('profilePic').valid">
+                <span *ngIf="mediaForm.get('profilePic').errors['extensionNotAllowd']">
+                    Allowed extensions ares [jpg, jpeg, png, jiff, 'svg']
+                </span>
+            </span>
         </div>
 
-        <div class="mb-3 mt-3">
-            <label for="video" class="form-label">Some Video</label>
-            <input type="file" id="video" formControlName="someVideo" class="form-control">
+        <div class="mb-3 mb-3">
+            <label for="someVideo" class="form-label">Some Video</label>
+            <input type="file" (change)="onChangeVideo($event)" formControlName="someVideo" id="someVideo" class="form-control">
+
+            <span *ngIf="!mediaForm.get('someVideo').valid">
+                <span *ngIf="mediaForm.get('someVideo').errors['extensionNotAllowd']">
+                    Allowed extensions ares ['mp4', 'mov', 'wmv', 'flv', 'avi']
+                </span>
+            </span>
         </div>
 
         <div class="mb-3 mt-3">
             <button type="submit" class="btn btn-outline-primary" [disabled]="!mediaForm.valid">Upload</button>
         </div>
     </form>
+
+    <video *ngIf="videoName" [src]="videoUrl" width="400px" controls ></video>
 
 </div>
