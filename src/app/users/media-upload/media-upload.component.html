@@ -1,7 +1,15 @@
+<div *ngIf="errors">
+    <div class="alert alert-danger" *ngFor="let message of errors">{{message}}</div>
+</div>
+
+<div *ngIf="success">
+    <div class="alert alert-success" *ngFor="let message of success">{{message}}</div>
+</div>
+
 <div class="p-2">
     <h3>Upload Media</h3>
 
-    <img [src]="imageUrl" alt="" width="200px" class="rounded-circle">
+    <img [src]="imageUrl"  width="200px" class="rounded-circle">
 
     <form class="p-3" [formGroup]="mediaForm" (ngSubmit)="onUpload()" enctype="multipart/form-data">
         
@@ -11,7 +19,7 @@
 
             <span *ngIf="!mediaForm.get('profilePic').valid">
                 <span *ngIf="mediaForm.get('profilePic').errors['extensionNotAllowd']">
-                    Allowed extensions ares [jpg, jpeg, png, jiff, 'svg']
+                    Allowed extensions are {{allowedImageExtensions}}
                 </span>
             </span>
         </div>
@@ -22,7 +30,18 @@
 
             <span *ngIf="!mediaForm.get('someVideo').valid">
                 <span *ngIf="mediaForm.get('someVideo').errors['extensionNotAllowd']">
-                    Allowed extensions ares ['mp4', 'mov', 'wmv', 'flv', 'avi']
+                    Allowed extensions are {{allowedVideoExtensions}}
+                </span>
+            </span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="someDocument" class="form-label">Some Document</label>
+            <input type="file" formControlName="someDocument" (change)="onChangeDocument($event)" id="someDocument" class="form-control">
+
+            <span *ngIf="!mediaForm.get('someDocument').valid">
+                <span *ngIf="mediaForm.get('someDocument').errors['extensionNotAllowd']">
+                    Allowed extensions are {{allowedDocumentsExtensions}}
                 </span>
             </span>
         </div>

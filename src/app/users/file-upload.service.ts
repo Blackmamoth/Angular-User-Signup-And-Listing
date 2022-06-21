@@ -23,6 +23,12 @@ export class FileUploadServices {
     return this.http.patch(`${this.baseUrl}/uploadVid`, formData)
   }
 
+  uploadDocument(file): any {
+    const formData = new FormData();
+    formData.append('file', file, file.name)
+    return this.http.patch(`${this.baseUrl}/uploadDoc`, formData)
+  }
+
   getImage(id): any {
     return this.http.post(`${this.baseUrl}/retrieveImg`, { id })
   }
@@ -31,4 +37,12 @@ export class FileUploadServices {
     return this.http.post(`${this.baseUrl}/retrieveVid`, { id })
   }
 
-}
+  getDocument(id): any {
+    return this.http.post(`${this.baseUrl}/retrieveDoc`, { id })
+  }
+
+  downloadDocument(url): any {
+    return this.http.get(url)
+  }
+
+} 
