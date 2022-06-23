@@ -1,5 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { FileUploadServices } from '../file-upload.service';
 
 @Component({
@@ -32,7 +33,7 @@ export class MediaUploadComponent implements OnInit {
   allowedVideoExtensions: string[] = ['mp4', 'mov', 'wmv', 'flv', 'avi', 'mkv']
   allowedDocumentsExtensions: string[] = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'csv', 'json']
 
-  constructor(private mediaService: FileUploadServices, private detectChanges: ChangeDetectorRef) { }
+  constructor(private mediaService: FileUploadServices, private router: Router) { }
 
   ngOnInit(): void {
     this.mediaForm = new FormGroup({
@@ -43,6 +44,13 @@ export class MediaUploadComponent implements OnInit {
     this.imageUpdate()
     this.videoUpdate()
     this.documentUpdate()
+  }
+
+  onCancel() {
+    const proceed = confirm('Are you sure you want to cancel this updations?')
+    if (proceed) {
+      this.router.navigate(['/'])
+    }
   }
 
   onChangeImage(event) {

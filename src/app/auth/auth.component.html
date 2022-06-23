@@ -1,4 +1,4 @@
-<form class="p-3" [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+<form class="container" [formGroup]="signInForm" (ngSubmit)="onSubmit()">
 
     <h3>Sign In</h3>
 
@@ -6,40 +6,48 @@
         {{errorMessage}}
     </div>
 
-    <div class="mb-3 mt-3">
-        <label for="email" class="form-label h5">Email</label>
-        <input type="email" id="email" class=" form-control" formControlName="email">
+    <div class="row mb-3">
+        <label for="email" class="col-sm-1 h5">Email</label>
 
-        <span *ngIf="!signInForm.get('email').valid && signInForm.get('email').touched">
-            <span *ngIf="signInForm.get('email').errors['required']">
-                This field is required
+        <div class="col-sm-5">
+            <input type="email" id="email" class=" form-control border-secondary" formControlName="email">
+
+            <span *ngIf="!signInForm.get('email').valid && signInForm.get('email').touched">
+                <span *ngIf="signInForm.get('email').errors['required']">
+                    This field is required
+                </span>
             </span>
-        </span>
 
+        </div>
     </div>
 
-    <div class=" mb-3 mt-3">
-        <label for="password" class="form-label h5">Password</label>
-        <input type="password" id="password" class=" form-control" formControlName="password">
+    <div class="row mb-3">
+        <label for="password" class="col-sm-1 h5">Password</label>
 
-        <span *ngIf="!signInForm.get('password').valid && signInForm.get('password').touched">
-            <span *ngIf="signInForm.get('password').errors['required']">
-                This field is required
+        <div class="col-sm-5">
+            <input type="password" id="password" class=" form-control border-secondary" formControlName="password">
+
+            <span *ngIf="!signInForm.get('password').valid && signInForm.get('password').touched">
+                <span *ngIf="signInForm.get('password').errors['required']">
+                    This field is required
+                </span>
+                <span *ngIf="signInForm.get('password').errors['minlength']">
+                    Password must contain minimum 6 characters
+                </span>
             </span>
-            <span *ngIf="signInForm.get('password').errors['minlength']">
-                Password must contain minimum 6 characters
-            </span>
-        </span>
+        </div>
+
     </div>
 
     <span>
         <button [disabled]="!signInForm.valid" type="submit" class="btn btn-primary me-3">Sign In</button>
         <button class="btn btn-primary" (click)="toSignUp()">Sign Up</button>
     </span>
-</form>
+    <br><br>
+    <span>
+        <a routerLink="/forgot-password">
+            Forgot Password?
+        </a>
+    </span>
 
-<span>
-    <a routerLink="/forgot-password">
-        Forgot Password?
-    </a>
-</span>
+</form>

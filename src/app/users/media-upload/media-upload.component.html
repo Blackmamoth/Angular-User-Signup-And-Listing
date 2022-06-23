@@ -9,48 +9,64 @@
 <div class="p-2">
     <h3>Upload Media</h3>
 
-    <img [src]="imageUrl"  width="200px" class="rounded-circle">
+    <img [src]="imageUrl" width="100px" class="rounded-circle" alt="Profile Pic">
 
     <form class="p-3" [formGroup]="mediaForm" (ngSubmit)="onUpload()" enctype="multipart/form-data">
-        
-        <div class="mb-3 mt-3">
-            <label for="profilePic" class="form-label" >Profile Pic</label>
-            <input type="file" formControlName="profilePic"  id="profilePic" (change)="onChangeImage($event)" class="form-control">
 
-            <span *ngIf="!mediaForm.get('profilePic').valid">
-                <span *ngIf="mediaForm.get('profilePic').errors['extensionNotAllowd']">
-                    Allowed extensions are {{allowedImageExtensions}}
+        <div class="row mb-3">
+            <label for="profilePic" class="col-sm-1 h5">Profile Pic</label>
+
+            <div class="col-sm-5">
+                <input type="file" formControlName="profilePic" id="profilePic" (change)="onChangeImage($event)"
+                    class="form-control border-secondary">
+
+                <span *ngIf="!mediaForm.get('profilePic').valid">
+                    <span *ngIf="mediaForm.get('profilePic').errors['extensionNotAllowd']">
+                        Allowed extensions are {{allowedImageExtensions}}
+                    </span>
                 </span>
-            </span>
+            </div>
+
         </div>
 
-        <div class="mb-3 mb-3">
-            <label for="someVideo" class="form-label">Some Video</label>
-            <input type="file" (change)="onChangeVideo($event)" formControlName="someVideo" id="someVideo" class="form-control">
+        <div class="row mb-3">
+            <label for="someVideo" class="col-sm-1 h5">Some Video</label>
 
-            <span *ngIf="!mediaForm.get('someVideo').valid">
-                <span *ngIf="mediaForm.get('someVideo').errors['extensionNotAllowd']">
-                    Allowed extensions are {{allowedVideoExtensions}}
+            <div class="col-sm-5">
+                <input type="file" (change)="onChangeVideo($event)" formControlName="someVideo" id="someVideo"
+                    class="form-control border-secondary">
+
+                <span *ngIf="!mediaForm.get('someVideo').valid">
+                    <span *ngIf="mediaForm.get('someVideo').errors['extensionNotAllowd']">
+                        Allowed extensions are {{allowedVideoExtensions}}
+                    </span>
                 </span>
-            </span>
+            </div>
+
+        </div>
+
+        <div class="row mb-3">
+            <label for="someDocument" class="col-sm-1 h5">Some Document</label>
+
+            <div class="col-sm-5">
+                <input type="file" formControlName="someDocument" (change)="onChangeDocument($event)" id="someDocument"
+                    class="form-control border-secondary">
+
+                <span *ngIf="!mediaForm.get('someDocument').valid">
+                    <span *ngIf="mediaForm.get('someDocument').errors['extensionNotAllowd']">
+                        Allowed extensions are {{allowedDocumentsExtensions}}
+                    </span>
+                </span>
+            </div>
+
         </div>
 
         <div class="mb-3 mt-3">
-            <label for="someDocument" class="form-label">Some Document</label>
-            <input type="file" formControlName="someDocument" (change)="onChangeDocument($event)" id="someDocument" class="form-control">
-
-            <span *ngIf="!mediaForm.get('someDocument').valid">
-                <span *ngIf="mediaForm.get('someDocument').errors['extensionNotAllowd']">
-                    Allowed extensions are {{allowedDocumentsExtensions}}
-                </span>
-            </span>
-        </div>
-
-        <div class="mb-3 mt-3">
-            <button type="submit" class="btn btn-outline-primary" [disabled]="!mediaForm.valid">Upload</button>
+            <button type="submit" class="btn btn-outline-primary me-2" [disabled]="!mediaForm.valid">Upload</button>
+            <button type="button" class="btn btn-outline-danger" (click)="onCancel()">Cancel</button>
         </div>
     </form>
 
-    <video *ngIf="videoName" [src]="videoUrl" width="400px" controls ></video>
+    <video *ngIf="videoName" [src]="videoUrl" width="400px" controls></video>
 
 </div>

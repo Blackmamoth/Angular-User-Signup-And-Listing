@@ -26,10 +26,6 @@ export class UsersService {
     return this.http.get<User[]>(this.baseUrl, httpOptions);
   }
 
-  // getUser(id: string): Observable<User> {
-  //   return this.http.get<User>(`${this.baseUrl}/${id}`, httpOptions);
-  // }
-
   getUser(id: string): Observable<User> {
     return this.authService.token.pipe(take(1), exhaustMap(data => {
       if (data?.token) {

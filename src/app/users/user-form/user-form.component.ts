@@ -123,13 +123,10 @@ export class UserFormComponent implements OnInit {
       'medicines': this.medicines,
       'role': new FormControl(null),
     })
+    console.log(this.medicines)
 
   }
 
-  watchDate() {
-    const dob = this.userForm.get('dob').value;
-    console.log(typeof dob)
-  }
 
   usernameTaken(control: FormControl): { [s: string]: boolean } {
     if (this.usernames.indexOf(control.value) !== -1) {
@@ -170,7 +167,7 @@ export class UserFormComponent implements OnInit {
 
   onSubmit() {
     const user: User = { username: this.userForm.get('username').value, phone: this.userForm.get('phone').value, email: this.userForm.get('email').value, dob: new Date(this.userForm.get('dob').value), country: this.userForm.get('country').value, state: this.userForm.get('state').value, city: this.userForm.get('city').value, pinCode: this.userForm.get('pinCode').value, roles: this.userForm.get('role').value || 'read', password: this.userForm.get('password').value || this.user.password, medicines: this.userForm.get('medicines').value };
-
+    console.log(user)
     if (this.editMode) {
       const proceed = confirm('Are you sure you want to update this information?')
       if (proceed) {
@@ -207,20 +204,16 @@ export class UserFormComponent implements OnInit {
       states.forEach(state => {
         this.states.push(state.name)
       })
-      // const filteredStates: any[] = states.filter(s => s.country_name === country)
-      // this.states = filteredStates.map(s => s.name)
     })
   }
 
   stateChanged() {
     const state = this.userForm.get('state').value;
     this.cities = [];
-    this.userService.getCities(state).subscribe(cities => {
-      cities.forEach(city => {
+    this.userService.getCities(state).subscribe(citiesArr => {
+      citiesArr.forEach(city => {
         this.cities.push(city.name)
       })
-      // const filteredCities = cities.filter(c => c.state_name === state)
-      // this.cities = filteredCities.map(c => c.name)
     })
   }
 
