@@ -49,6 +49,16 @@ export class UsersListComponent implements OnInit {
       })
     })
 
+    const id = JSON.parse(localStorage.getItem('userData'))._id;
+    this.mediaService.getImage(id).subscribe(image => {
+      if (!image) {
+        this.userProfilePic = `/uploads/images/default.jpg`
+        return;
+      }
+      let imageName = image.name;
+      this.userProfilePic = `/uploads/images/${imageName}`
+    })
+
   }
 
   deleteUser(user: User) {
