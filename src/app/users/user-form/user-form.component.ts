@@ -190,6 +190,12 @@ export class UserFormComponent implements OnInit {
   }
 
   onCancel() {
+    if (this.userForm.touched) {
+      const proceed = confirm('Are you sure you want to discard these changes?')
+      if (!proceed) {
+        return
+      }
+    }
     this.router.navigate(['/'])
   }
 

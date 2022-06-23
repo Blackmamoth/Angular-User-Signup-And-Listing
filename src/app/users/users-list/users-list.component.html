@@ -33,9 +33,9 @@
                             [ngClass]="{'btn-success': user.roles === 'add', 'btn-primary': user.roles === 'view', 'btn-danger': user.roles === 'none'}">{{user.roles}}</span>
                     </td>
                     <td><span>
-                            <button type="button" class="btn btn-outline-primary me-2"
+                            <button type="button" class="btn btn-outline-primary me-2 p-1"
                                 (click)="edit(user)">Edit</button>
-                            <button type="button" class="btn btn-outline-danger"
+                            <button type="button" class="btn btn-outline-danger p-1"
                                 (click)="deleteUser(user)">Delete</button>
                         </span></td>
                 </tr>
@@ -56,9 +56,9 @@
                             [ngClass]="{'btn-success': user.roles === 'add', 'btn-primary': user.roles === 'view', 'btn-danger': user.roles === 'none'}">{{user.roles}}</span>
                     </td>
                     <td><span>
-                            <button type="button" class="btn btn-outline-primary me-2"
+                            <button type="button" class="btn btn-outline-primary me-2 p-1"
                                 (click)="edit(user)">Edit</button>
-                            <button type="button" class="btn btn-outline-danger"
+                            <button type="button" class="btn btn-outline-danger p-1"
                                 (click)="deleteUser(user)">Delete</button>
                         </span>
                     </td>
@@ -68,19 +68,29 @@
     </div>
 </div>
 
-<div class="card text-bg-dark mb-3" style="max-width: 18rem;" *ngIf="!admin">
-    <div class="card-header">{{user.username}}</div>
-    <div class="card-body">
-        <h5 class="card-title">{{user.email}} - {{user.phone}}</h5>
-        <p class="card-text">{{user.country}} - {{user.state}} - {{user.city}}</p>
-    </div>
-    <div class="m-3">
-        <span>
-            <button *ngIf="showUpdateProfile" class="btn btn-primary text-center mb-3" (click)="edit(user)">Update
-                Profile</button>
-            <button *ngIf="showMedicinesBtn" class="btn btn-primary text-center" (click)="showMedicines()">Show
-                Medicines</button>
-            <button class="btn btn-primary text-center" (click)="showImage()">Upload Media</button>
-        </span>
+
+<div class="ms-5" *ngIf="!admin">
+    <div class="flex justify-center">
+        <div class="p-2">
+            <img style="border-radius: 50%;" src="http://localhost:5000/uploads/images/default.jpg" alt="" width="100px"
+                height="100px">
+        </div>
+
+        <div class="p-2 flex-col">
+            <h2 class="bg-gray">{{user.username}}</h2>
+            <p class="bg-gray">{{user.email}}</p>
+            <p>{{user.phone}}</p>
+
+            <p>{{user.country}} - {{user.state}} - {{user.city}}</p>
+
+            <div>
+                <span>
+                    <button class="button" (click)="showImage()">Upload Media</button>
+                    <button class="button" *ngIf="showUpdateProfile" (click)="edit(user)">Update Profile</button>
+                    <button class="button" *ngIf="showMedicinesBtn" (click)="showMedicines()">View
+                        Medicines</button>
+                </span>
+            </div>
+        </div>
     </div>
 </div>

@@ -1,10 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { AuthService } from 'src/app/auth/auth.service';
+import { FileUploadServices } from '../file-upload.service';
 import { User } from '../User';
-import { UserFormComponent } from '../user-form/user-form.component';
-import { UserMedicinesComponent } from '../user-medicines/user-medicines.component';
 import { UsersService } from '../users.service';
 
 @Component({
@@ -21,6 +20,8 @@ export class UsersListComponent implements OnInit {
   admin: boolean = false;
 
   user: User = { username: '', email: '', phone: 0, pinCode: 0, country: '', state: '', city: '', password: '', dob: new Date('01-01-01') };
+  userProfilePic: string;
+
 
   modalRef?: BsModalRef;
 
@@ -29,7 +30,7 @@ export class UsersListComponent implements OnInit {
   showUpdateProfile: boolean = false;
   showMedicinesBtn: boolean = false;
 
-  constructor(private userService: UsersService, private router: Router, private modalService: BsModalService, private authService: AuthService, private route: ActivatedRoute) { }
+  constructor(private userService: UsersService, private router: Router, private authService: AuthService, private route: ActivatedRoute, private mediaService: FileUploadServices) { }
 
   ngOnInit(): void {
     this.authService.token.subscribe(data => {
@@ -47,6 +48,7 @@ export class UsersListComponent implements OnInit {
         }
       })
     })
+
   }
 
   deleteUser(user: User) {
@@ -60,13 +62,12 @@ export class UsersListComponent implements OnInit {
   }
 
   edit(user: User) {
-    // this.router.navigate([user._id, 'edit'], { relativeTo: this.route })
-    // this.modalRef = this.modalService.show(UserFormComponent, { class: 'modal-xl', id: user._id, initialState: { editMode: true, userId: user._id } },)
+    console.log('clicked')
     this.router.navigate(['edit', user._id], { relativeTo: this.route })
   }
 
   showMedicines() {
-    // this.modalRef = this.modalService.show(UserMedicinesComponent, { class: 'modal-lg', id: this.user._id, initialState: { medicines: this.user.medicines } })
+
     this.router.navigate(['medicines'], { relativeTo: this.route })
   }
 

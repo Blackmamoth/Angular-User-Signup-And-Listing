@@ -47,10 +47,13 @@ export class MediaUploadComponent implements OnInit {
   }
 
   onCancel() {
-    const proceed = confirm('Are you sure you want to cancel this updations?')
-    if (proceed) {
-      this.router.navigate(['/'])
+    if (this.mediaForm.touched) {
+      const proceed = confirm('Are you sure you want to discard these changes?')
+      if (!proceed) {
+        return;
+      }
     }
+    this.router.navigate([''])
   }
 
   onChangeImage(event) {
