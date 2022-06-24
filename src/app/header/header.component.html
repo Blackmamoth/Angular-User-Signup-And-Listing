@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+<!-- <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" routerLink="/">Navbar</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -24,4 +24,70 @@
             </ul>
         </div>
     </div>
-</nav>
+</nav> -->
+
+<header id="header" class="container">
+
+    <h1>
+        <!-- Main page logo -->
+        <a>Sangoma</a>
+    </h1>
+
+
+    <!-- Main navigation -->
+    <nav class="main-navigation navbar navbar-default" role="navigation">
+
+        <!-- Collapse navigation for mobile -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".main-navigation-collapse">
+                <span class="elusive icon-home"></span> Sangoma
+            </button>
+        </div>
+        <!-- /Collapse navigation for mobile -->
+
+        <!-- Navigation -->
+        <div class="main-navigation-collapse collapse navbar-collapse">
+
+            <!-- Navigation items -->
+            <ul class="nav navbar-nav">
+
+                <!-- Active navigation items -->
+                <li class="active">
+                    <a routerLink="/"><span class="elusive icon-home"></span> Sangoma</a>
+                </li>
+                <!-- /Active navigation items -->
+
+                <!-- Dropdown navigation items -->
+                <li class="dropdown" *ngIf="isAuthenticated">
+                    <a class="dropdown-toggle" routerLink="/" data-toggle="dropdown"><span
+                            class="elusive icon-asl"></span>
+                        Home</a>
+
+                </li>
+                <!-- /Dropdown navigation items -->
+
+                <!-- Dropdown navigation with multi-level dropdown -->
+                <li class="dropdown">
+                    <a *ngIf="isAuthenticated" (click)="logoutUser()" class="dropdown-toggle"
+                        data-toggle="dropdown"><span class="elusive icon-file"></span> Logout</a>
+
+                </li>
+                <!-- /Dropdown navigation with multi-level dropdown -->
+
+                <li *ngIf="!isAuthenticated">
+                    <a routerLink="register"><span class="elusive icon-info-sign"></span> Sign Up</a>
+                </li>
+
+                <li *ngIf="!isAuthenticated">
+                    <a routerLink="login"><span class="elusive icon-info-sign"></span> Sign In</a>
+                </li>
+            </ul>
+            <!-- /Navigation items -->
+
+        </div>
+        <!-- /Navigation -->
+
+    </nav>
+    <!-- /Main navigation -->
+
+</header>

@@ -85,8 +85,7 @@
       <div class="col-sm-5">
         <button type="button" class="btn btn-primary btn-sm" (click)="onAddMedicine()">Add Medicine</button>
         <div class="mt-2" *ngFor="let control of getMedicineControls(); let i = index" formArrayName="medicines">
-          <input type="text" class="form-control form-control-sm w-50 border-secondary" placeholder="Medicine name"
-            [formControlName]="i">
+          <input type="text" class="input-sm" placeholder="Medicine name" [formControlName]="i">
         </div>
       </div>
     </div>
