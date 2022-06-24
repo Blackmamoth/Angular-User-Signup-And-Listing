@@ -32,10 +32,14 @@
                         <span
                             [ngClass]="{'text-success': user.roles === 'add', 'text-primary': user.roles === 'view', 'text-danger': user.roles === 'none'}">{{user.roles}}</span>
                     </td>
-                    <td><span>
-                            <button type="button" class="btn btn btn-success me-2" (click)="edit(user)">Edit</button>
-                            <button type="button" class="btn btn-danger" (click)="deleteUser(user)">Delete</button>
-                        </span></td>
+                    <td>
+                        <span>
+                            <button type="button" style="padding: 5px;margin-right: 3px;"
+                                class="btn btn btn-success me-2" (click)="edit(user)">Edit</button>
+                            <button type="button" style="padding: 5px;margin-left: 3px;" class="btn btn-danger"
+                                (click)="deleteUser(user)">Delete</button>
+                        </span>
+                    </td>
                 </tr>
             </tbody>
             <tbody *ngIf="filteredUsers">
@@ -53,10 +57,12 @@
                         <span
                             [ngClass]="{'text-success': user.roles === 'add', 'text-primary': user.roles === 'view', 'text-danger': user.roles === 'none'}">{{user.roles}}</span>
                     </td>
-                    <td><span>
-                            <button type="button" style="margin-right: 10px;" class="btn btn btn-success"
-                                (click)="edit(user)">Edit</button>
-                            <button type="button" class="btn btn-danger" (click)="deleteUser(user)">Delete</button>
+                    <td>
+                        <span>
+                            <button type="button" style="padding: 5px;margin-right: 3px;"
+                                class="btn btn btn-success me-2" (click)="edit(user)">Edit</button>
+                            <button type="button" style="padding: 5px;margin-left: 3px;" class="btn btn-danger"
+                                (click)="deleteUser(user)">Delete</button>
                         </span>
                     </td>
                 </tr>

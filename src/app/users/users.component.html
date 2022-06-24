@@ -1,9 +1,9 @@
 <form [formGroup]="searchForm" class="container">
     <input type="text" placeholder="Enter ID or Username or Country or State or City or Pin Code (Case Sensitive)"
-        class="form-control w-50" formControlName="searchQuery">
+        class="form-control" formControlName="searchQuery">
     <span>
-        <button class="btn-primary btn btn-sm m-1" (click)="searchUser()">Search</button>
-        <button class="btn-danger btn btn-sm m-1" (click)="onClear()">Clear</button>
+        <button class="btn-primary btn btn-sm m-1" style="margin: 5px;" (click)="searchUser()">Search</button>
+        <button class="btn-danger btn btn-sm m-1" style="margin: 5px;" (click)="onClear()">Clear</button>
     </span>
 
     <div>
