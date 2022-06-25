@@ -12,4 +12,6 @@ export interface User {
     admin?: boolean,
     medicines?: string[],
     roles?: string,
+    success?: boolean,
+    token?: string,
 }

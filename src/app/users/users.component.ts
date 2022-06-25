@@ -20,6 +20,8 @@ export class UsersComponent implements OnInit {
 
   subscription: Subscription;
 
+  countries: string[] = ['Country'];
+
   constructor(private userService: UsersService, private router: Router) {
     // this.router.events.subscribe(event => {
     //   if (event instanceof NavigationEnd) {
@@ -33,10 +35,20 @@ export class UsersComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getUsers().subscribe(users => {
       this.users = users
+      this.userService.getCountries().subscribe(countries => {
+        countries.forEach(country => {
+          this.countries.push(country.name)
+        })
+      })
     })
 
     this.searchForm = new FormGroup({
-      'searchQuery': new FormControl(null),
+      'id': new FormControl(null),
+      'username': new FormControl(null),
+      'country': new FormControl('Country'),
+      'pinCode': new FormControl(null),
+      'role': new FormControl('Role'),
+      'category': new FormControl(null),
       'itemsPerPage': new FormControl(5),
     })
 
@@ -47,59 +59,66 @@ export class UsersComponent implements OnInit {
   itemsPerPageChanged() {
     const itemsPerPage = this.searchForm.get('itemsPerPage').value;
     this.itemsPerPage = itemsPerPage
-    console.log(this.itemsPerPage)
   }
 
   searchUser() {
-    let searchQuery = this.searchForm.get('searchQuery').value;
-    if (!searchQuery) {
-      alert('Please enter a value to search a user by');
+    const id = this.searchForm.get('id').value
+    const username = this.searchForm.get('username').value
+    const country = this.searchForm.get('country').value
+    const pinCode = this.searchForm.get('pinCode').value
+    const role = this.searchForm.get('role').value
+
+    if (!id && !username && country === 'Country' && !pinCode && role === 'Role') {
+      this.filteredUsers = null;
       return;
     }
 
-    let users = this.users.filter(user => user.state === searchQuery)
+    let usersList = this.users.filter(user => user._id === id)
 
-    if (users.length > 0) {
-      this.filteredUsers = users;
+    if (usersList.length > 0) {
+      this.filteredUsers = usersList;
       return;
     }
 
-    users = this.users.filter(user => user.city === searchQuery)
-
-    if (users.length > 0) {
-      this.filteredUsers = users;
-      return;
+    if (username) {
+      this.users.forEach(user => {
+        if (user.username.startsWith(username)) {
+          usersList.push(user)
+        }
+      })
     }
 
-    users = this.users.filter(user => user.pinCode === +searchQuery)
-
-    if (users.length > 0) {
-      this.filteredUsers = users;
-      return;
+    if (country) {
+      this.users.forEach(user => {
+        if (user.country === country) {
+          usersList.push(user);
+        }
+      })
     }
 
-    users = this.users.filter(user => user.username.startsWith(searchQuery))
-
-    if (users.length > 0) {
-      this.filteredUsers = users;
-      return
+    if (pinCode) {
+      this.users.forEach(user => {
+        if (user.pinCode === pinCode) {
+          usersList.push(user)
+        }
+      })
     }
 
-    users = this.users.filter(user => user._id === searchQuery)
-
-    if (users.length > 0) {
-      this.filteredUsers = users;
-      return;
+    if (role) {
+      this.users.forEach(user => {
+        if (user.roles === role) {
+          usersList.push(user)
+        }
+      })
     }
 
-    users = this.users.filter(user => user.country === searchQuery)
+    let usersSet: any = new Set(usersList);
 
-    if (users.length > 0) {
-      this.filteredUsers = users;
-      return
-    }
+    this.filteredUsers = [];
+    usersSet.forEach(user => {
+      this.filteredUsers.push(user)
+    })
 
-    alert('No user with that filter found')
   }
 
   onClear() {

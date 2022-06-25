@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Form, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { AuthService } from 'src/app/auth/auth.service';
 import { User } from '../User';
 import { UserMedicinesComponent } from '../user-medicines/user-medicines.component';
 import { UsersService } from '../users.service';
@@ -40,7 +41,7 @@ export class UserFormComponent implements OnInit {
 
   showUpdateProfile: boolean = false;
 
-  constructor(private userService: UsersService, private router: Router, public modalRef: BsModalRef, private modalService: BsModalService, private route: ActivatedRoute) { }
+  constructor(private userService: UsersService, private router: Router, public modalRef: BsModalRef, private modalService: BsModalService, private route: ActivatedRoute, private authService: AuthService) { }
 
   ngOnInit(): void {
 
@@ -167,17 +168,19 @@ export class UserFormComponent implements OnInit {
 
   onSubmit() {
     const user: User = { username: this.userForm.get('username').value, phone: this.userForm.get('phone').value, email: this.userForm.get('email').value, dob: new Date(this.userForm.get('dob').value), country: this.userForm.get('country').value, state: this.userForm.get('state').value, city: this.userForm.get('city').value, pinCode: this.userForm.get('pinCode').value, roles: this.userForm.get('role').value || 'read', password: this.userForm.get('password').value || this.user.password, medicines: this.userForm.get('medicines').value };
-    console.log(user)
     if (this.editMode) {
       const proceed = confirm('Are you sure you want to update this information?')
       if (proceed) {
         this.userService.updateUser(this.user, user).subscribe();
+        this.router.navigate(['/'])
       }
     } else {
-      this.userService.addUser(user).subscribe();
+      this.userService.addUser(user).subscribe(userData => {
+        localStorage.setItem('userData', JSON.stringify({ success: userData.success, token: userData.token, _id: userData._id }))
+        this.authService.autoLogin()
+        this.router.navigate(['/users'])
+      });
     }
-    this.router.navigate(['/'])
-    this.modalRef.hide()
   }
 
   onAddMedicine() {

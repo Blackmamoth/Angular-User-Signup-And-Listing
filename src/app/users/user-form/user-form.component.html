@@ -76,6 +76,10 @@
         <span *ngIf="userForm.get('phone').errors['phoneIsTaken']">
           Phone number is already in use
         </span>
+
+        <span *ngIf="userForm.get('phone').errors['tenDigitRequired']">
+          Phone number must contain 10 digits only
+        </span>
       </span>
     </div>
 
