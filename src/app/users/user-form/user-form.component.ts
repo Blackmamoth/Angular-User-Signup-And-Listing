@@ -25,9 +25,9 @@ export class UserFormComponent implements OnInit {
   emails: string[] = [];
   phones: number[] = [];
 
-  countries: string[] = [];
-  states: string[] = [];
-  cities: string[] = [];
+  countries: string[] = ['Select Country'];
+  states: string[] = ['Select State'];
+  cities: string[] = ['Select City'];
 
   editMode: boolean = false;
   user: User;
@@ -35,7 +35,7 @@ export class UserFormComponent implements OnInit {
 
   medicines: FormArray = new FormArray([]);
 
-  roles: string[] = ["view", "add", "none"]
+  roles: string[] = ["none", "view", "add",]
 
   adminMode: boolean = false;
 
@@ -85,10 +85,7 @@ export class UserFormComponent implements OnInit {
           })
         }
       }
-
     )
-
-
 
     this.userService.getUsers().subscribe(users => {
       users.forEach(user => {
@@ -117,14 +114,13 @@ export class UserFormComponent implements OnInit {
       'password': new FormControl(null, [Validators.required, Validators.minLength(6)]),
       'phone': new FormControl(null, [Validators.required, this.phoneTaken.bind(this), this.tenDigitRequired.bind(this)]),
       'dob': new FormControl(null, Validators.required),
-      'country': new FormControl(null, Validators.required),
-      'state': new FormControl(null, Validators.required),
-      'city': new FormControl(null, Validators.required),
+      'country': new FormControl('Select Country', [Validators.required, this.countryValidator.bind(this)]),
+      'state': new FormControl('Select State', [Validators.required, this.stateValidator.bind(this)]),
+      'city': new FormControl('Select City', [Validators.required, this.cityValidator.bind(this)]),
       'pinCode': new FormControl(null, [Validators.required, this.sixDigitRequired.bind(this)]),
       'medicines': this.medicines,
-      'role': new FormControl(null),
+      'role': new FormControl('none'),
     })
-    console.log(this.medicines)
 
   }
 
@@ -163,6 +159,21 @@ export class UserFormComponent implements OnInit {
     if (numberValue.length !== 6) {
       return { 'sixDigitRequired': true }
     }
+    return null;
+  }
+
+  countryValidator(control: FormControl): { [s: string]: boolean } {
+    if (control.value === 'Select Country') { return { 'selectionError': true } }
+    return null;
+  }
+
+  stateValidator(control: FormControl): { [s: string]: boolean } {
+    if (control.value === 'Select State') { return { 'selectionError': true } }
+    return null;
+  }
+
+  cityValidator(control: FormControl): { [s: string]: boolean } {
+    if (control.value === 'Select City') { return { 'selectionError': true } }
     return null;
   }
 
@@ -208,7 +219,7 @@ export class UserFormComponent implements OnInit {
 
   countryChanged() {
     const country = this.userForm.get('country').value
-    this.states = [];
+    this.states = ['Select State'];
     this.userService.getStates(country).subscribe(states => {
       states.forEach(state => {
         this.states.push(state.name)
@@ -218,7 +229,7 @@ export class UserFormComponent implements OnInit {
 
   stateChanged() {
     const state = this.userForm.get('state').value;
-    this.cities = [];
+    this.cities = ['Select City'];
     this.userService.getCities(state).subscribe(citiesArr => {
       citiesArr.forEach(city => {
         this.cities.push(city.name)

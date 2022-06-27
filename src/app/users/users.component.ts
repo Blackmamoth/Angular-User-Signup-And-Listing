@@ -22,14 +22,13 @@ export class UsersComponent implements OnInit {
 
   countries: string[] = ['Country'];
 
+  noFilteredUsers: boolean = false;
+
+  user: User;
+
+  adminMode: boolean = false;
+
   constructor(private userService: UsersService, private router: Router) {
-    // this.router.events.subscribe(event => {
-    //   if (event instanceof NavigationEnd) {
-    //     this.userService.getUsers().subscribe(users => {
-    //       this.users = users
-    //     })
-    //   }
-    // })
   }
 
   ngOnInit(): void {
@@ -42,13 +41,22 @@ export class UsersComponent implements OnInit {
       })
     })
 
+    const userData = JSON.parse(localStorage.getItem('userData'))
+    const id = userData._id;
+
+    this.userService.getUser(id).subscribe(user => {
+      this.user = user;
+      if (this.user.admin) {
+        this.adminMode = true;
+      }
+    })
+
     this.searchForm = new FormGroup({
       'id': new FormControl(null),
       'username': new FormControl(null),
       'country': new FormControl('Country'),
       'pinCode': new FormControl(null),
       'role': new FormControl('Role'),
-      'category': new FormControl(null),
       'itemsPerPage': new FormControl(5),
     })
 
@@ -118,6 +126,10 @@ export class UsersComponent implements OnInit {
     usersSet.forEach(user => {
       this.filteredUsers.push(user)
     })
+
+    if (this.filteredUsers.length === 0) {
+      this.noFilteredUsers = true
+    }
 
   }
 

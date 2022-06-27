@@ -1,7 +1,7 @@
 <div class="row" *ngIf="admin">
     <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
     <div class="table-responsive">
-        <table class="table table-striped table-hover table-primary">
+        <table class="table table-striped table-bordered  table-hover">
             <thead>
                 <tr>
                     <th>User ID</th>
@@ -35,7 +35,7 @@
                     <td>
                         <span>
                             <button type="button" style="padding: 5px;margin-right: 3px;"
-                                class="btn btn btn-success me-2" (click)="edit(user)">Edit</button>
+                                class="btn btn btn-inverse me-2" (click)="edit(user)">Edit</button>
                             <button type="button" style="padding: 5px;margin-left: 3px;" class="btn btn-danger"
                                 (click)="deleteUser(user)">Delete</button>
                         </span>
@@ -60,7 +60,7 @@
                     <td>
                         <span>
                             <button type="button" style="padding: 5px;margin-right: 3px;"
-                                class="btn btn btn-success me-2" (click)="edit(user)">Edit</button>
+                                class="btn btn btn-inverse me-2" (click)="edit(user)">Edit</button>
                             <button type="button" style="padding: 5px;margin-left: 3px;" class="btn btn-danger"
                                 (click)="deleteUser(user)">Delete</button>
                         </span>
@@ -68,6 +68,7 @@
                 </tr>
             </tbody>
         </table>
+        <h1 *ngIf="noFilteredUsers">No users with those attributes found</h1>
     </div>
 </div>
 

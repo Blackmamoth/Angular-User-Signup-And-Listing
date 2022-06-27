@@ -1,22 +1,4 @@
-<!-- <form [formGroup]="searchForm" class="container">
-    <input type="text" placeholder="Enter ID or Username or Country or State or City or Pin Code (Case Sensitive)"
-        class="form-control" formControlName="searchQuery">
-    <span>
-        <button class="btn-primary btn btn-sm m-1" style="margin: 5px;" (click)="searchUser()">Search</button>
-        <button class="btn-danger btn btn-sm m-1" style="margin: 5px;" (click)="onClear()">Clear</button>
-    </span>
-
-    <div>
-        <select formControlName="itemsPerPage" class="form-control w-50" (change)="itemsPerPageChanged()">
-            <option value="5" >5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-        </select>
-    </div>
-
-</form> -->
-
-<form class="row  bg-danger" [formGroup]="searchForm" style="margin: 0 auto; padding: 0.5em;">
+<form class="row  bg-   " [formGroup]="searchForm" style="margin: 0 auto; padding: 0.5em;" *ngIf="adminMode">
 
     <!-- Widget block -->
     <div class="col-sm-2 col-xs-6">
@@ -56,12 +38,6 @@
     </div>
 
     <div class="col-sm-2 col-xs-6">
-        <select class="form-control" formControlName="category" (change)="searchUser()">
-            <option disabled>Category</option>
-        </select>
-    </div>
-
-    <div class="col-sm-2 col-xs-6" style="margin-top: 0.5em;">
         <select class="form-control" formControlName="itemsPerPage" (change)="itemsPerPageChanged()">
             <option>5</option>
             <option>10</option>
@@ -72,13 +48,13 @@
 </form>
 
 
-<div class="row" style="margin: 1em;">
-    <div class="col">
+<div class="row">
+    <div [ngClass]="{'col-xs-4': !adminMode}">
         <app-users-list [users]="users" [filteredUsers]="filteredUsers" [itemsPerPage]="itemsPerPage"></app-users-list>
+        <h3 *ngIf="noFilteredUsers" class="text-center">No users with those attribute found</h3>
     </div>
 
-    <div style="margin-top: 250px;">
+    <div [ngClass]="{'col-xs-4': !adminMode}">
         <router-outlet></router-outlet>
     </div>
-
 </div>

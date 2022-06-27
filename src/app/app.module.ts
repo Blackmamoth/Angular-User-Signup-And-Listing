@@ -18,6 +18,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { ResetPasswordComponent } from './forgot-password/reset-password/reset-password.component';
 import { UserMedicinesComponent } from './users/user-medicines/user-medicines.component';
 import { MediaUploadComponent } from './users/media-upload/media-upload.component';
+import { SanitizeUrlPipe } from './sanitize-url.pipe';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { MediaUploadComponent } from './users/media-upload/media-upload.componen
     ResetPasswordComponent,
     UserMedicinesComponent,
     MediaUploadComponent,
+    SanitizeUrlPipe,
   ],
   imports: [
     BrowserModule,

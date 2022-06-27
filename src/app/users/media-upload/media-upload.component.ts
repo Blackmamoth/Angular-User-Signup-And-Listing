@@ -18,8 +18,11 @@ export class MediaUploadComponent implements OnInit {
   mediaForm: FormGroup;
 
   imageFile: File;
+  imgSrc: string = "img/sample_content/upload-250x150.png";
   videoFile: File;
+  videoSrc: string = 'img/sample_content/upload-250x150.png';
   documentFile: File;
+  documentSrc: string = 'img/sample_content/upload-250x150.png';
 
   imageName: string = null;
   videoName: string = null;
@@ -29,17 +32,13 @@ export class MediaUploadComponent implements OnInit {
   videoUrl: string;
   documentUrl: string;
 
-  allowedImageExtensions: string[] = ['jpg', 'png', 'jpeg', 'jiff', 'svg']
-  allowedVideoExtensions: string[] = ['mp4', 'mov', 'wmv', 'flv', 'avi', 'mkv']
-  allowedDocumentsExtensions: string[] = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'csv', 'json']
-
   constructor(private mediaService: FileUploadServices, private router: Router) { }
 
   ngOnInit(): void {
     this.mediaForm = new FormGroup({
-      'profilePic': new FormControl(null, [this.allowedImageExtension.bind(this)]),
-      'someVideo': new FormControl(null, [this.allowedVideoExtension.bind(this)]),
-      'someDocument': new FormControl(null, [this.allowedDocumentExtension.bind(this)])
+      'profilePic': new FormControl(null),
+      'someVideo': new FormControl(null),
+      'someDocument': new FormControl(null)
     })
     this.imageUpdate()
     this.videoUpdate()
@@ -59,17 +58,34 @@ export class MediaUploadComponent implements OnInit {
   onChangeImage(event) {
     const files = event.target.files
     this.imageFile = files[0]
+    this.imgSrc = URL.createObjectURL(files[0])
+  }
+
+  removeImage() {
+    this.imageFile = null;
+    this.imgSrc = 'img/sample_content/upload-250x150.png'
   }
 
   onChangeVideo(event) {
     const files = event.target.files
     this.videoFile = files[0]
+    this.videoSrc = URL.createObjectURL(files[0])
+  }
+
+  removeVideo() {
+    this.videoFile = null;
+    this.videoSrc = 'img/sample_content/upload-250x150.png'
   }
 
   onChangeDocument(event) {
     const files = event.target.files
     this.documentFile = files[0]
   }
+
+  removeDocument() {
+    this.documentFile = null;
+  }
+
 
   onUpload() {
     if (this.imageFile) {
@@ -106,35 +122,7 @@ export class MediaUploadComponent implements OnInit {
     this.mediaForm.reset()
   }
 
-  allowedImageExtension(control: FormControl): { [s: string]: boolean } {
-    if (control.value) {
-      const ext = control.value.split('.')[1]
-      if (!this.allowedImageExtensions.includes(ext)) {
-        return { 'extensionNotAllowd': true }
-      }
-    }
-    return null;
-  }
 
-  allowedVideoExtension(control: FormControl): { [s: string]: boolean } {
-    if (control.value) {
-      const ext = control.value.split('.')[1]
-      if (!this.allowedVideoExtensions.includes(ext)) {
-        return { 'extensionNotAllowd': true }
-      }
-    }
-    return null;
-  }
-
-  allowedDocumentExtension(control: FormControl): { [s: string]: boolean } {
-    if (control.value) {
-      const ext = control.value.split('.')[1]
-      if (!this.allowedDocumentsExtensions.includes(ext)) {
-        return { 'extensionNotAllowd': true }
-      }
-    }
-    return null;
-  }
 
 
   imageUpdate() {

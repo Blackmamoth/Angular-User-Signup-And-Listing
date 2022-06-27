@@ -9,64 +9,110 @@
 <div class="p-2">
     <h3>Upload Media</h3>
 
-    <img [src]="imageUrl" width="100px" class="rounded-circle" alt="Profile Pic">
-
     <form class="p-3" [formGroup]="mediaForm" (ngSubmit)="onUpload()" enctype="multipart/form-data">
 
-        <div class="row mb-3">
-            <label for="profilePic" class="col-sm-1 h5">Profile Pic</label>
 
-            <div class="col-sm-5">
-                <input type="file" formControlName="profilePic" id="profilePic" (change)="onChangeImage($event)"
-                    class="form-control border-secondary">
-
-                <span *ngIf="!mediaForm.get('profilePic').valid">
-                    <span *ngIf="mediaForm.get('profilePic').errors['extensionNotAllowd']">
-                        Allowed extensions are {{allowedImageExtensions}}
+        <!-- <div class="fileupload fileupload-new" data-provides="fileupload">
+            <div class="input-group col-sm-4">
+                <div class="form-control">
+                    <i class="icon-file fileupload-exists"></i>
+                    <span class="fileupload-preview"></span>
+                </div>
+                <span class="input-group-btn">
+                    <span class="btn btn-default btn-file">
+                        <span class="fileupload-new">Select Image</span>
+                        <span class="fileupload-exists">Change</span>
+                        <input type="file" accept="image/*" formControlName="profilePic"
+                            (change)="onChangeImage($event)">
                     </span>
                 </span>
             </div>
-
         </div>
 
-        <div class="row mb-3">
-            <label for="someVideo" class="col-sm-1 h5">Some Video</label>
-
-            <div class="col-sm-5">
-                <input type="file" (change)="onChangeVideo($event)" formControlName="someVideo" id="someVideo"
-                    class="form-control border-secondary">
-
-                <span *ngIf="!mediaForm.get('someVideo').valid">
-                    <span *ngIf="mediaForm.get('someVideo').errors['extensionNotAllowd']">
-                        Allowed extensions are {{allowedVideoExtensions}}
+        <div class="fileupload fileupload-new" data-provides="fileupload">
+            <div class="input-group col-sm-4">
+                <div class="form-control">
+                    <i class="icon-file fileupload-exists"></i>
+                    <span class="fileupload-preview"></span>
+                </div>
+                <span class="input-group-btn">
+                    <span class="btn btn-default btn-file">
+                        <span class="fileupload-new">Select Video</span>
+                        <span class="fileupload-exists">Change</span>
+                        <input type="file" accept="video/*" formControlName="someVideo"
+                            (change)="onChangeVideo($event)">
                     </span>
                 </span>
             </div>
-
         </div>
 
-        <div class="row mb-3">
-            <label for="someDocument" class="col-sm-1 h5">Some Document</label>
-
-            <div class="col-sm-5">
-                <input type="file" formControlName="someDocument" (change)="onChangeDocument($event)" id="someDocument"
-                    class="form-control border-secondary">
-
-                <span *ngIf="!mediaForm.get('someDocument').valid">
-                    <span *ngIf="mediaForm.get('someDocument').errors['extensionNotAllowd']">
-                        Allowed extensions are {{allowedDocumentsExtensions}}
+        <div class="fileupload fileupload-new" data-provides="fileupload">
+            <div class="input-group col-sm-4">
+                <div class="form-control">
+                    <i class="icon-file fileupload-exists"></i>
+                    <span class="fileupload-preview"></span>
+                </div>
+                <span class="input-group-btn">
+                    <span class="btn btn-default btn-file">
+                        <span class="fileupload-new">Select Document</span>
+                        <span class="fileupload-exists">Change</span>
+                        <input type="file" accept="application/* || text/*" formControlName="someDocument"
+                            (change)="onChangeDocument($event)">
                     </span>
                 </span>
             </div>
+        </div> -->
 
+        <div class="fileupload fileupload-new" data-provides="fileupload">
+            <div class="fileupload-preview fileupload-large thumbnail"><img [src]="imgSrc | sanitizeUrl">
+            </div>
+            <div>
+                <span class="btn btn-default btn-file">
+                    <span class="fileupload-new">{{!imageFile ? 'Select Image': 'Change Image'}}</span>
+                    <input type="file" formControlName="profilePic" (change)="onChangeImage($event)" accept="image/*" />
+                </span>
+                <button type="button" *ngIf="imageFile" (click)="removeImage()" class="fileupload-new btn btn-danger"
+                    style="margin-left: 1em;">Remove</button>
+            </div>
+        </div>
+
+        <div class="fileupload fileupload-new" data-provides="fileupload">
+            <div class="fileupload-preview fileupload-large thumbnail">
+                <img [src]="videoSrc" *ngIf="!videoFile">
+                <video *ngIf="videoFile" autoplay [src]="videoSrc | sanitizeUrl"></video>
+            </div>
+            <div>
+                <span class="btn btn-default btn-file">
+                    <span class="fileupload-new">{{!videoFile ? 'Select Video': 'Change Video'}}</span>
+                    <input type="file" formControlName="someVideo" (change)="onChangeVideo($event)" accept="video/*" />
+                </span>
+                <button type="button" *ngIf="videoFile" (click)="removeVideo()" class="fileupload-new btn btn-danger"
+                    style="margin-left: 1em;">Remove</button>
+            </div>
+        </div>
+
+        <div class="fileupload fileupload-new" data-provides="fileupload">
+            <div class="fileupload-preview thumbnail" [ngClass]="{'fileupload-large': !documentFile}">
+                <img [src]="documentSrc | sanitizeUrl" *ngIf="!documentFile">
+                <p *ngIf="documentFile">{{documentFile.name}}</p>
+            </div>
+            <div>
+                <span class="btn btn-default btn-file">
+                    <span class="fileupload-new">{{!documentFile? 'Select Document': 'Change Document'}}</span>
+                    <input type="file" formControlName="profilePic" (change)="onChangeDocument($event)"
+                        accept="text/* || application/*" />
+                </span>
+                <button type="button" *ngIf="documentFile" (click)="removeDocument()"
+                    class="fileupload-new btn btn-danger" style="margin-left: 1em;">Remove</button>
+            </div>
         </div>
 
         <div class="mb-3 mt-3">
-            <button type="submit" class="btn btn-outline-primary me-2" [disabled]="!mediaForm.valid">Upload</button>
-            <button type="button" class="btn btn-outline-danger" (click)="onCancel()">Cancel</button>
+            <button type="submit" style="margin-right: 1em;" class="btn btn-primary me-2"
+                [disabled]="!mediaForm.valid">Upload</button>
+            <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
         </div>
     </form>
 
-    <video *ngIf="videoName" [src]="videoUrl" width="400px" controls></video>
 
 </div>

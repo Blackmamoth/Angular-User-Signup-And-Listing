@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AuthService } from 'src/app/auth/auth.service';
 import { FileUploadServices } from '../file-upload.service';
 import { User } from '../User';
+import { UserFormComponent } from '../user-form/user-form.component';
 import { UsersService } from '../users.service';
 
 @Component({
@@ -30,7 +31,8 @@ export class UsersListComponent implements OnInit {
   showUpdateProfile: boolean = false;
   showMedicinesBtn: boolean = false;
 
-  constructor(private userService: UsersService, private router: Router, private authService: AuthService, private route: ActivatedRoute, private mediaService: FileUploadServices) { }
+  constructor(private userService: UsersService, private router: Router, private authService: AuthService, private route: ActivatedRoute,
+    private mediaService: FileUploadServices, private modelService: BsModalService) { }
 
   ngOnInit(): void {
     this.authService.token.subscribe(data => {
@@ -72,8 +74,10 @@ export class UsersListComponent implements OnInit {
   }
 
   edit(user: User) {
-    console.log('clicked')
+    // if (!this.admin) {
     this.router.navigate(['edit', user._id], { relativeTo: this.route })
+    // return;
+    // }
   }
 
   showMedicines() {

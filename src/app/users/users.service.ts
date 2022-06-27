@@ -29,7 +29,6 @@ export class UsersService {
   getUser(id: string): Observable<User> {
     return this.authService.token.pipe(take(1), exhaustMap(data => {
       if (data?.token) {
-        const headers = httpOptions.headers.append('Authorization', `Bearer ${data.token}`)
         return this.http.get<User>(`${this.baseUrl}/${id}`);
       } else {
         return this.http.get<User>(`${this.baseUrl}/${id}`);

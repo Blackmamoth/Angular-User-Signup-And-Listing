@@ -10,7 +10,7 @@
         <label for="email" class="col-sm-1 h5">Email</label>
 
         <div class="col-sm-5">
-            <input type="email" id="email" class=" form-control border-secondary" formControlName="email">
+            <input type="email" id="email" class=" form-control" formControlName="email">
 
             <span *ngIf="!signInForm.get('email').valid && signInForm.get('email').touched">
                 <span *ngIf="signInForm.get('email').errors['required']">
@@ -29,7 +29,7 @@
         <label for="password" class="col-sm-1 h5">Password</label>
 
         <div class="col-sm-5">
-            <input type="password" id="password" class=" form-control border-secondary" formControlName="password">
+            <input type="password" id="password" class=" form-control" formControlName="password">
 
             <span *ngIf="!signInForm.get('password').valid && signInForm.get('password').touched">
                 <span *ngIf="signInForm.get('password').errors['required']">
