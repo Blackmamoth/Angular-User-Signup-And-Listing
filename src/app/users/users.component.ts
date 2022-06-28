@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { User } from './User';
 import { UsersService } from './users.service';
@@ -28,7 +28,7 @@ export class UsersComponent implements OnInit {
 
   adminMode: boolean = false;
 
-  constructor(private userService: UsersService, private router: Router) {
+  constructor(private userService: UsersService, private router: Router, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
@@ -62,12 +62,20 @@ export class UsersComponent implements OnInit {
 
     this.itemsPerPage = this.searchForm.get('itemsPerPage').value
 
+    setTimeout(() => {
+      if (!this.user.admin) {
+        this.router.navigate(['edit', this.user._id], { relativeTo: this.route })
+      }
+    }, 500)
+
   }
+
 
   itemsPerPageChanged() {
     const itemsPerPage = this.searchForm.get('itemsPerPage').value;
     this.itemsPerPage = itemsPerPage
   }
+
 
   searchUser() {
     const id = this.searchForm.get('id').value
@@ -78,6 +86,7 @@ export class UsersComponent implements OnInit {
 
     if (!id && !username && country === 'Country' && !pinCode && role === 'Role') {
       this.filteredUsers = null;
+      this.noFilteredUsers = false;
       return;
     }
 

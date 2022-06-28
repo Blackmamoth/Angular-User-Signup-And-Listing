@@ -19,7 +19,6 @@ export class UserFormComponent implements OnInit {
 
   userForm: FormGroup;
 
-  modalRef2: BsModalRef | null;
 
   usernames: string[] = [];
   emails: string[] = [];
@@ -33,15 +32,16 @@ export class UserFormComponent implements OnInit {
   user: User;
   userId: string;
 
-  medicines: FormArray = new FormArray([]);
+  // medicines: FormArray = new FormArray([]);
 
   roles: string[] = ["none", "view", "add",]
 
   adminMode: boolean = false;
 
-  showUpdateProfile: boolean = false;
+  allowShowMedicine: boolean = false;
+  allowAddMedicine: boolean = false;
 
-  constructor(private userService: UsersService, private router: Router, public modalRef: BsModalRef, private modalService: BsModalService, private route: ActivatedRoute, private authService: AuthService) { }
+  constructor(private userService: UsersService, private router: Router, private modalService: BsModalService, private route: ActivatedRoute, private authService: AuthService) { }
 
   ngOnInit(): void {
 
@@ -67,19 +67,21 @@ export class UserFormComponent implements OnInit {
               'pinCode': this.user.pinCode,
               'role': this.user.roles
             })
-            if (this.user.medicines) {
-              user.medicines.forEach((medicine) => {
-                this.medicines.push(
-                  new FormControl(medicine)
-                )
-              })
-            }
+            // if (this.user.medicines) {
+            //   user.medicines.forEach((medicine) => {
+            //     this.medicines.push(
+            //       new FormControl(medicine)
+            //     )
+            //   })
+            // }
             const userData = JSON.parse(localStorage.getItem('userData'))
             this.userService.getUser(userData._id).subscribe(user => {
               if (user.admin) {
                 this.adminMode = true
               }
             })
+            this.allowShowMedicine = this.user.roles === 'view' ? true : false;
+            this.allowAddMedicine = this.user.roles === 'add' ? true : false;
             this.countryChanged()
             this.stateChanged()
           })
@@ -118,7 +120,6 @@ export class UserFormComponent implements OnInit {
       'state': new FormControl('Select State', [Validators.required, this.stateValidator.bind(this)]),
       'city': new FormControl('Select City', [Validators.required, this.cityValidator.bind(this)]),
       'pinCode': new FormControl(null, [Validators.required, this.sixDigitRequired.bind(this)]),
-      'medicines': this.medicines,
       'role': new FormControl('none'),
     })
 
@@ -126,21 +127,21 @@ export class UserFormComponent implements OnInit {
 
 
   usernameTaken(control: FormControl): { [s: string]: boolean } {
-    if (this.usernames.indexOf(control.value) !== -1) {
+    if (this.usernames.indexOf(control.value) !== -1 && this.user.username !== control.value) {
       return { 'usernameIsTaken': true }
     }
     return null;
   }
 
   emailTaken(control: FormControl): { [s: string]: boolean } {
-    if (this.emails.indexOf(control.value) !== -1) {
+    if (this.emails.indexOf(control.value) !== -1 && this.user.email !== control.value) {
       return { 'emailIsTaken': true }
     }
     return null;
   }
 
   phoneTaken(control: FormControl): { [s: string]: boolean } {
-    if (this.phones.indexOf(control.value) !== -1) {
+    if (this.phones.indexOf(control.value) !== -1 && this.user.phone !== control.value) {
       return { 'phoneIsTaken': true }
     }
     return null;
@@ -178,12 +179,16 @@ export class UserFormComponent implements OnInit {
   }
 
   onSubmit() {
-    const user: User = { username: this.userForm.get('username').value, phone: this.userForm.get('phone').value, email: this.userForm.get('email').value, dob: new Date(this.userForm.get('dob').value), country: this.userForm.get('country').value, state: this.userForm.get('state').value, city: this.userForm.get('city').value, pinCode: this.userForm.get('pinCode').value, roles: this.userForm.get('role').value || 'read', password: this.userForm.get('password').value || this.user.password, medicines: this.userForm.get('medicines').value };
+    const user: User = { username: this.userForm.get('username').value, phone: this.userForm.get('phone').value, email: this.userForm.get('email').value, dob: new Date(this.userForm.get('dob').value), country: this.userForm.get('country').value, state: this.userForm.get('state').value, city: this.userForm.get('city').value, pinCode: this.userForm.get('pinCode').value, roles: this.userForm.get('role').value || 'read', password: this.userForm.get('password').value || this.user.password };
     if (this.editMode) {
       const proceed = confirm('Are you sure you want to update this information?')
       if (proceed) {
         this.userService.updateUser(this.user, user).subscribe();
-        this.router.navigate(['/'])
+        if (!this.adminMode) {
+          this.router.navigate(['/users', 'edit', this.user._id])
+        } else {
+          this.router.navigate(['/users'])
+        }
       }
     } else {
       this.userService.addUser(user).subscribe(userData => {
@@ -213,9 +218,6 @@ export class UserFormComponent implements OnInit {
     this.router.navigate(['/'])
   }
 
-  openModal() {
-    this.modalRef2 = this.modalService.show(UserMedicinesComponent, { class: 'modal-lg', initialState: { medicines: this.user.medicines } })
-  }
 
   countryChanged() {
     const country = this.userForm.get('country').value

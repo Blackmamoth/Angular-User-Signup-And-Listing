@@ -9,6 +9,8 @@ import { UserFormComponent } from "./users/user-form/user-form.component";
 import { UserMedicinesComponent } from "./users/user-medicines/user-medicines.component";
 import { UsersComponent } from "./users/users.component";
 
+// const userID = (JSON.parse(localStorage.getItem('userData')))._id
+
 const appRoutes: Routes = [
     { path: '', redirectTo: 'users', pathMatch: 'full' },
     {

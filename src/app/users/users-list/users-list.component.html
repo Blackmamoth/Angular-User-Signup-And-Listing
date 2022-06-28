@@ -73,23 +73,22 @@
 </div>
 
 
-<div class="ms-5" *ngIf="!admin">
-    <div class="flex justify-center">
-        <div class="p-2 flex-col">
-            <h2 class="bg-gray">{{user.username}}</h2>
-            <p class="bg-gray">{{user.email}}</p>
-            <p>{{user.phone}}</p>
-
-            <p>{{user.country}} - {{user.state}} - {{user.city}}</p>
-
-            <div>
-                <span>
-                    <button class="button" (click)="showImage()">Upload Media</button>
-                    <button class="button" *ngIf="showUpdateProfile" (click)="edit(user)">Update Profile</button>
-                    <button class="button" *ngIf="showMedicinesBtn" (click)="showMedicines()">View
-                        Medicines</button>
-                </span>
-            </div>
-        </div>
+<article class="col-sm-4" style="width: 250px" *ngIf="!admin">
+    <div class="data-block">
+        <header>
+            <h2>User Info</h2>
+        </header>
+        <section>
+            <ul class="list-unstyled">
+                <li><span class="elusive icon-ok"></span> Name: {{user.username}}</li>
+                <li><span class="elusive icon-ok"></span> Email: {{user.email}}</li>
+                <li><span class="elusive icon-ok"></span> Phone: {{user.phone}}</li>
+                <li><span class="elusive icon-ok"></span> DOB: {{user.dob | date}}</li>
+                <li><span class="elusive icon-ok"></span> Country: {{user.country}}</li>
+                <li><span class="elusive icon-ok"></span> State: {{user.state}}</li>
+                <li><span class="elusive icon-ok"></span> City: {{user.city}}</li>
+                <li><span class="elusive icon-ok"></span> Pin Code: {{user.pinCode}}</li>
+            </ul>
+        </section>
     </div>
-</div>
+</article>

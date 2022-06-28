@@ -1,4 +1,4 @@
-<div class="container" id="horizontal">
+<!-- <div id="horizontal">
 
   <form role="form" [formGroup]="userForm">
 
@@ -39,7 +39,7 @@
       </span>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group row" *ngIf="!editMode">
       <label class="col-lg-12" for="password">Password</label>
       <div class="col-lg-8">
         <input type="password" class="form-control" style="padding: 1.1em;" formControlName="password" id="password"
@@ -179,14 +179,232 @@
     <div class="form-group row" *ngIf="adminMode">
       <label class="col-lg-12" for="role">Role</label>
       <div class="col-lg-8">
-        <select id="role" style="padding: 1.1em;" formControlName="role" class="form-control border-secondary">
+        <select id="role" formControlName="role" class="form-control border-secondary">
           <option *ngFor="let role of roles" value="{{role}}">{{role}}</option>
         </select>
       </div>
     </div>
 
-    <button type="submit" class="btn btn-primary" style="margin-right: 0.3em;">Submit</button>
+    <button type="submit" class="btn btn-primary" (click)="onSubmit()" style="margin-right: 0.3em;">Submit</button>
     <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
   </form>
 
+</div> -->
+<div class="container">
+  <!-- Grid row -->
+  <div class="row">
+
+    <!-- Data block -->
+    <article class="col-sm-9">
+      <div class="data-block">
+        <header>
+          <h2><span class="elusive icon-calendar"></span> {{editMode ? 'Update User' : 'Register User'}}</h2>
+          <ul class="data-header-actions" *ngIf="editMode && !adminMode">
+            <li class="demoTabs active"><a class="btn btn-alt" *ngIf="allowShowMedicine">Show Medicine</a></li>
+            <li class="demoTabs"><a class="btn btn-alt" *ngIf="allowAddMedicine">Add Medicine</a></li>
+          </ul>
+        </header>
+
+        <section class="tab-content">
+
+          <!-- Tab #horizontal -->
+          <div class="tab-pane active" id="horizontal">
+
+            <form class="form-horizontal" [formGroup]="userForm" role="form">
+              <div class="form-group">
+                <label for="username" class="col-sm-2 control-label">Username</label>
+                <div class="col-sm-6">
+                  <input type="text" formControlName="username" class="form-control" id="username"
+                    placeholder="Enter Username">
+                </div>
+
+                <span *ngIf="!userForm.get('username').valid && userForm.get('username').touched">
+                  <span *ngIf="userForm.get('username').errors['usernameIsTaken']">
+                    This username is already in use
+                  </span>
+
+                  <span *ngIf="userForm.get('username').errors['required']">
+                    This field is required
+                  </span>
+                </span>
+              </div>
+
+              <div class="form-group">
+                <label for="email" class="col-sm-2 control-label">Email</label>
+                <div class="col-sm-6">
+                  <input formControlName="email" type="email" class="form-control" id="email" placeholder="Enter Email">
+                </div>
+
+                <span *ngIf="!userForm.get('email').valid && userForm.get('email').touched">
+                  <span
+                    *ngIf="userForm.get('email').errors['emailIsTaken'] && user.email !== userForm.get('email').value ">
+                    This email is already in use
+                  </span>
+
+                  <span *ngIf="userForm.get('email').errors['required']">
+                    This field is required
+                  </span>
+                </span>
+              </div>
+
+              <div class="form-group" *ngIf="!editMode">
+                <label for="password" class="col-sm-2 control-label">Password</label>
+                <div class="col-sm-6">
+                  <input type="password" formControlName="password" class="form-control" id="password"
+                    placeholder="Enter password">
+                </div>
+
+                <span *ngIf="!userForm.get('password').valid && userForm.get('password').touched" class="h5">
+
+                  <span *ngIf="userForm.get('password').errors['required']" class="h5">
+                    This field is required
+                  </span>
+                </span>
+              </div>
+
+              <div class="form-group">
+                <label for="phone" class="col-sm-2 control-label">Phone number</label>
+                <div class="col-sm-6">
+                  <input type="number" formControlName="phone" class="form-control" id="phone"
+                    placeholder="Enter Phone number">
+                </div>
+
+                <span *ngIf="!userForm.get('phone').valid && userForm.get('phone').touched" class="h5">
+                  <span *ngIf="userForm.get('phone').errors['phoneIsTaken']">
+                    This phone number is already in use
+                  </span>
+
+                  <span *ngIf="userForm.get('phone').errors['required']" class="h5">
+                    This field is required
+                  </span>
+                </span>
+              </div>
+
+              <div class="form-group">
+                <label for="dob" class="col-sm-2 control-label">DOB</label>
+                <div class="col-sm-6">
+                  <input type="date" formControlName="dob" class="form-control" id="dob">
+                </div>
+
+                <span *ngIf="!userForm.get('dob').valid && userForm.get('dob').touched" class="h5">
+
+                  <span *ngIf="userForm.get('dob').errors['required']" class="h5">
+                    This field is required
+                  </span>
+                </span>
+              </div>
+
+              <div class="form-group">
+                <label for="country" class="col-sm-2 control-label">Select Country</label>
+                <div class="col-sm-5">
+                  <select id="country" class="form-control" formControlName="country" (change)="countryChanged()">
+                    <option *ngFor="let country of countries" [disabled]="country === 'Select Country'"
+                      value="{{ country }}">
+                      {{ country }}
+                    </option>
+                  </select>
+                </div>
+
+                <span *ngIf="!userForm.get('country').valid && userForm.get('country').touched">
+
+                  <span *ngIf="userForm.get('country').errors['selectionError']" class="h5">
+                    Please select a country
+                  </span>
+
+                </span>
+              </div>
+
+              <div class="form-group">
+                <label for="state" class="col-sm-2 control-label">Select State</label>
+                <div class="col-sm-5">
+                  <select id="state" class="form-control" formControlName="state" (change)="stateChanged()">
+                    <option *ngFor="let state of states" value="{{ state }}">
+                      {{ state }}
+                    </option>
+                  </select>
+                </div>
+
+                <span *ngIf="!userForm.get('state').valid && userForm.get('state').touched">
+
+                  <span *ngIf="userForm.get('state').touched && !userForm.get('country').valid" class="h5">
+                    Please select a country before selecting state
+                  </span>
+
+                  <span *ngIf="userForm.get('state').errors['selectionError'] && userForm.get('country').touched"
+                    class="h5">
+                    Please select a state
+                  </span>
+
+                </span>
+              </div>
+
+              <div class="form-group">
+                <label for="city" class="col-sm-2 control-label">Select City</label>
+                <div class="col-sm-5">
+                  <select id="city" class="form-control" formControlName="city">
+                    <option *ngFor="let city of cities" value="{{ city }}" [disabled]="city === 'Select City'">{{ city}}
+                    </option>
+                  </select>
+                </div>
+
+                <span *ngIf="!userForm.get('city').valid && userForm.get('city').touched">
+
+                  <span *ngIf="userForm.get('city').touched && !userForm.get('state').valid" class="h5">
+                    Please select a state before selecting city
+                  </span>
+
+                  <span *ngIf="userForm.get('city').errors['selectionError'] && userForm.get('state').touched"
+                    class="h5">
+                    Please select a city
+                  </span>
+
+                </span>
+              </div>
+
+              <div class="form-group">
+                <label for="pinCode" class="col-sm-2 control-label">Pin Code</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" formControlName="pinCode" id="pinCode"
+                    placeholder="Enter Pin Code">
+                </div>
+                <span *ngIf="!userForm.get('pinCode').valid && userForm.get('pinCode').touched">
+                  <span *ngIf="userForm.get('pinCode').errors['required']">
+                    This field is required
+                  </span>
+                </span>
+              </div>
+
+              <div class="form-group" *ngIf="adminMode">
+                <label for="city" class="col-sm-2 control-label">Select Role</label>
+                <div class="col-sm-5">
+                  <select id="city" class="form-control" formControlName="role">
+                    <option *ngFor="let role of roles" value="{{role}}">{{role}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-lg"
+                    [ngClass]="{'btn-primary': !editMode,  'btn-success': editMode}" (click)="onSubmit()">{{!editMode ?
+                    'Register'
+                    : 'Update'}}</button>
+                  <button *ngIf="editMode" style="margin-left: 0.5em;" (click)="onCancel()" type="submit"
+                    class="btn btn-lg btn-danger">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </form>
+
+          </div>
+          <!-- /Tab #horizontal -->
+
+        </section>
+      </div>
+    </article>
+    <!-- /Data block -->
+
+  </div>
+  <!-- /Grid row -->
 </div>
