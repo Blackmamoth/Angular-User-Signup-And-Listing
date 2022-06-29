@@ -63,56 +63,80 @@
             </div>
         </div> -->
 
-        <div class="fileupload fileupload-new" data-provides="fileupload">
-            <div class="fileupload-preview fileupload-large thumbnail"><img [src]="imgSrc | sanitizeUrl">
-            </div>
-            <div>
-                <span class="btn btn-default btn-file">
-                    <span class="fileupload-new">{{!imageFile ? 'Select Image': 'Change Image'}}</span>
-                    <input type="file" formControlName="profilePic" (change)="onChangeImage($event)" accept="image/*" />
-                </span>
-                <button type="button" *ngIf="imageFile" (click)="removeImage()" class="fileupload-new btn btn-danger"
-                    style="margin-left: 1em;">Remove</button>
-            </div>
-        </div>
+        <div class="row">
 
-        <div class="fileupload fileupload-new" data-provides="fileupload">
-            <div class="fileupload-preview fileupload-large thumbnail">
-                <img [src]="videoSrc" *ngIf="!videoFile">
-                <video *ngIf="videoFile" autoplay [src]="videoSrc | sanitizeUrl"></video>
-            </div>
-            <div>
-                <span class="btn btn-default btn-file">
-                    <span class="fileupload-new">{{!videoFile ? 'Select Video': 'Change Video'}}</span>
-                    <input type="file" formControlName="someVideo" (change)="onChangeVideo($event)" accept="video/*" />
-                </span>
-                <button type="button" *ngIf="videoFile" (click)="removeVideo()" class="fileupload-new btn btn-danger"
-                    style="margin-left: 1em;">Remove</button>
-            </div>
-        </div>
+            <!-- Data block -->
+            <article class="col-sm-9">
+                <div class="data-block">
+                    <header>
+                        <h2><span class="elusive icon-calendar"></span> Upload Media</h2>
+                        <ul class="data-header-actions">
+                            <li class="demoTabs" [routerLink]="'active'"><a class="btn btn-alt"
+                                    [routerLink]="['/users', 'edit', userData._id]">Update
+                                    Profile</a></li>
+                        </ul>
+                    </header>
 
-        <div class="fileupload fileupload-new" data-provides="fileupload">
-            <div class="fileupload-preview thumbnail" [ngClass]="{'fileupload-large': !documentFile}">
-                <img [src]="documentSrc | sanitizeUrl" *ngIf="!documentFile">
-                <p *ngIf="documentFile">{{documentFile.name}}</p>
-            </div>
-            <div>
-                <span class="btn btn-default btn-file">
-                    <span class="fileupload-new">{{!documentFile? 'Select Document': 'Change Document'}}</span>
-                    <input type="file" formControlName="profilePic" (change)="onChangeDocument($event)"
-                        accept="text/* || application/*" />
-                </span>
-                <button type="button" *ngIf="documentFile" (click)="removeDocument()"
-                    class="fileupload-new btn btn-danger" style="margin-left: 1em;">Remove</button>
-            </div>
-        </div>
+                    <div style="padding: 1em;">
+                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                            <div class="fileupload-preview fileupload-large thumbnail"><img
+                                    [src]="imgSrc | sanitizeUrl">
+                            </div>
+                            <div>
+                                <span class="btn btn-default btn-file">
+                                    <span class="fileupload-new">{{!imageFile ? 'Select Image': 'Change Image'}}</span>
+                                    <input type="file" formControlName="profilePic" (change)="onChangeImage($event)"
+                                        accept="image/*" />
+                                </span>
+                                <button type="button" *ngIf="imageFile" (click)="removeImage()"
+                                    class="fileupload-new btn btn-danger" style="margin-left: 1em;">Remove</button>
+                            </div>
+                        </div>
 
-        <div class="mb-3 mt-3">
-            <button type="submit" style="margin-right: 1em;" class="btn btn-primary me-2"
-                [disabled]="!mediaForm.valid">Upload</button>
-            <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
+                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                            <div class="fileupload-preview fileupload-large thumbnail">
+                                <img [src]="videoSrc" *ngIf="!videoFile && !videoSrc.startsWith('http')">
+                                <video *ngIf="videoFile || videoSrc.startsWith('http')" autoplay
+                                    [src]="videoSrc | sanitizeUrl"></video>
+                            </div>
+                            <div>
+                                <span class="btn btn-default btn-file">
+                                    <span class="fileupload-new">{{!videoFile ? 'Select Video': 'Change Video'}}</span>
+                                    <input type="file" formControlName="someVideo" (change)="onChangeVideo($event)"
+                                        accept="video/*" />
+                                </span>
+                                <button type="button" *ngIf="videoFile" (click)="removeVideo()"
+                                    class="fileupload-new btn btn-danger" style="margin-left: 1em;">Remove</button>
+                            </div>
+                        </div>
+
+                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                            <div class="fileupload-preview thumbnail"
+                                [ngClass]="{'fileupload-large': !userDocumentPresent}">
+                                <img [src]="documentSrc | sanitizeUrl" *ngIf="!userDocumentPresent">
+                                <p *ngIf="documentFileName">{{documentFileName}}</p>
+                            </div>
+                            <div>
+                                <span class="btn btn-default btn-file">
+                                    <span class="fileupload-new">
+                                        {{!documentFile? 'Select Document': 'Change Document'}}</span>
+                                    <input type="file" formControlName="profilePic" (change)="onChangeDocument($event)"
+                                        accept="text/* || application/*" />
+                                </span>
+                                <button type="button" *ngIf="documentFile" (click)="removeDocument()"
+                                    class="fileupload-new btn btn-danger" style="margin-left: 1em;">Remove</button>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <button type="submit" style="margin-right: 1em;" class="btn btn-primary me-2"
+                                [disabled]="!mediaForm.valid">Upload</button>
+                            <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </article>
         </div>
     </form>
-
 
 </div>

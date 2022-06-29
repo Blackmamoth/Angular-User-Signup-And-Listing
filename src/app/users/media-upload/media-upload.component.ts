@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FileUploadServices } from '../file-upload.service';
+import { User } from '../User';
+import { UsersService } from '../users.service';
 
 @Component({
   selector: 'app-media-upload',
@@ -27,6 +29,9 @@ export class MediaUploadComponent implements OnInit {
   imageName: string = null;
   videoName: string = null;
   documentName: string = null;
+  documentFileName: string = null;
+
+  userDocumentPresent: boolean = false;
 
   imageUrl: string;
   videoUrl: string;
@@ -35,6 +40,26 @@ export class MediaUploadComponent implements OnInit {
   constructor(private mediaService: FileUploadServices, private router: Router) { }
 
   ngOnInit(): void {
+
+    this.mediaService.getImage(this.userData._id).subscribe(data => {
+      if (data?.name) {
+        this.imgSrc = `/uploads/images/${data.name}`
+      }
+    })
+
+    this.mediaService.getVideo(this.userData._id).subscribe(data => {
+      if (data?.name) {
+        this.videoSrc = `/uploads/videos/${data.name}`
+      }
+    })
+
+    this.mediaService.getDocument(this.userData._id).subscribe(data => {
+      if (data?.filename) {
+        this.documentFileName = data.filename
+        this.userDocumentPresent = true
+      }
+    })
+
     this.mediaForm = new FormGroup({
       'profilePic': new FormControl(null),
       'someVideo': new FormControl(null),
@@ -80,6 +105,8 @@ export class MediaUploadComponent implements OnInit {
   onChangeDocument(event) {
     const files = event.target.files
     this.documentFile = files[0]
+    console.log(files[0])
+    this.documentFileName = files[0].name
   }
 
   removeDocument() {

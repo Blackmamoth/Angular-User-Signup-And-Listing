@@ -1,10 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Form, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AuthService } from 'src/app/auth/auth.service';
 import { User } from '../User';
-import { UserMedicinesComponent } from '../user-medicines/user-medicines.component';
 import { UsersService } from '../users.service';
 
 @Component({
@@ -32,8 +30,6 @@ export class UserFormComponent implements OnInit {
   user: User;
   userId: string;
 
-  // medicines: FormArray = new FormArray([]);
-
   roles: string[] = ["none", "view", "add",]
 
   adminMode: boolean = false;
@@ -41,7 +37,10 @@ export class UserFormComponent implements OnInit {
   allowShowMedicine: boolean = false;
   allowAddMedicine: boolean = false;
 
-  constructor(private userService: UsersService, private router: Router, private modalService: BsModalService, private route: ActivatedRoute, private authService: AuthService) { }
+  alertMessage: string = null;
+  showAlertMessage: boolean = false;
+
+  constructor(private userService: UsersService, private router: Router, private route: ActivatedRoute, private authService: AuthService) { }
 
   ngOnInit(): void {
 
@@ -67,13 +66,7 @@ export class UserFormComponent implements OnInit {
               'pinCode': this.user.pinCode,
               'role': this.user.roles
             })
-            // if (this.user.medicines) {
-            //   user.medicines.forEach((medicine) => {
-            //     this.medicines.push(
-            //       new FormControl(medicine)
-            //     )
-            //   })
-            // }
+
             const userData = JSON.parse(localStorage.getItem('userData'))
             this.userService.getUser(userData._id).subscribe(user => {
               if (user.admin) {
@@ -97,13 +90,6 @@ export class UserFormComponent implements OnInit {
       })
     })
 
-
-
-    // this.userService.getCities('').subscribe(cities => {
-    //   cities.forEach(city => {
-    //     this.pushToArrayIfNotItemExists(this.countries, city.country_name)
-    //   })
-    // })
     this.userService.getCountries().subscribe(countries => {
       countries.forEach(country => {
         this.pushToArrayIfNotItemExists(this.countries, country.name)
@@ -127,21 +113,30 @@ export class UserFormComponent implements OnInit {
 
 
   usernameTaken(control: FormControl): { [s: string]: boolean } {
-    if (this.usernames.indexOf(control.value) !== -1 && this.user.username !== control.value) {
+    if (this.usernames.indexOf(control.value) !== -1) {
+      if (this.editMode && this.user.username === control.value) {
+        return null
+      }
       return { 'usernameIsTaken': true }
     }
     return null;
   }
 
   emailTaken(control: FormControl): { [s: string]: boolean } {
-    if (this.emails.indexOf(control.value) !== -1 && this.user.email !== control.value) {
+    if (this.emails.indexOf(control.value) !== -1) {
+      if (this.editMode && this.user.email === control.value) {
+        return null
+      }
       return { 'emailIsTaken': true }
     }
     return null;
   }
 
   phoneTaken(control: FormControl): { [s: string]: boolean } {
-    if (this.phones.indexOf(control.value) !== -1 && this.user.phone !== control.value) {
+    if (this.phones.indexOf(control.value) !== -1) {
+      if (this.editMode && this.user.phone === control.value) {
+        return null
+      }
       return { 'phoneIsTaken': true }
     }
     return null;
@@ -184,6 +179,12 @@ export class UserFormComponent implements OnInit {
       const proceed = confirm('Are you sure you want to update this information?')
       if (proceed) {
         this.userService.updateUser(this.user, user).subscribe();
+        this.alertMessage = 'User profile update successful'
+        this.showAlertMessage = true
+        setTimeout(() => {
+          this.alertMessage = null;
+          this.showAlertMessage = false;
+        }, 4000)
         if (!this.adminMode) {
           this.router.navigate(['/users', 'edit', this.user._id])
         } else {
@@ -199,14 +200,9 @@ export class UserFormComponent implements OnInit {
     }
   }
 
-  onAddMedicine() {
-    const control = new FormControl(null, Validators.required);
-    (<FormArray>this.userForm.get('medicines')).push(control)
-  }
 
-  getMedicineControls() {
-    return (<FormArray>this.userForm.get('medicines')).controls;
-  }
+
+
 
   onCancel() {
     if (this.userForm.touched) {

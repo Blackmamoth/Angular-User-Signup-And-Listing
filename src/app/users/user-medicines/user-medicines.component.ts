@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { User } from '../User';
 import { UsersService } from '../users.service';
 
 @Component({
@@ -17,6 +16,8 @@ export class UserMedicinesComponent implements OnInit {
 
   _id: string;
 
+  noMedicines: boolean = true;
+
   constructor(private userService: UsersService, private router: Router) { }
 
   ngOnInit(): void {
@@ -24,11 +25,10 @@ export class UserMedicinesComponent implements OnInit {
     this._id = userData._id
     this.userService.getUser(this._id).subscribe(user => {
       this.medicines = user.medicines
+      if (this.medicines.length > 0) {
+        this.noMedicines = false;
+      }
     })
-  }
-
-  onClose() {
-    this.router.navigate([''])
   }
 
 }

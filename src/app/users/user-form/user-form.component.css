@@ -21,3 +21,7 @@ select.ng-invalid.ng-touched {
         width: 32em;
     }
 }
+
+.alert {
+    width: 74.5%;
+}
