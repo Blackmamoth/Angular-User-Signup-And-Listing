@@ -49,7 +49,7 @@
 
 
 <div class="row">
-    <div [ngClass]="{'col-xs-4': !adminMode}">
+    <div [ngClass]="{'col-xs-4': !adminMode, 'userInfo': !adminMode }">
         <app-users-list [users]="users" [filteredUsers]="filteredUsers" [itemsPerPage]="itemsPerPage"></app-users-list>
         <h3 *ngIf="noFilteredUsers" class="text-center">No users with those attribute found
         </h3>

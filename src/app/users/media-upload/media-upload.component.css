@@ -1,3 +1,19 @@
 input.ng-invalid.ng-touched {
     border: 1px solid red
 }
+
+.row {
+    width: 70em;
+}
+
+@media only screen and (max-width: 790px) {
+    .row {
+        width: 50em;
+    }
+}
+
+@media only screen and (max-width: 746px) {
+    .row {
+        width: 32em;
+    }
+}

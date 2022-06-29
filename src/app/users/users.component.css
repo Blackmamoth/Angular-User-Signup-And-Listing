@@ -1,3 +1,37 @@
 input {
     color: black;
 }
+
+.userInfo {
+    position: relative;
+    left: 20em;
+}
+
+.router {
+    position: relative;
+}
+
+@media only screen and (max-width: 1640px) {
+    .userInfo {
+        left: 10em;
+    }
+}
+
+@media only screen and (max-width: 1300px) {
+    .userInfo {
+        left: 5em;
+    }
+}
+
+@media only screen and (max-width: 1140px) {
+    .userInfo {
+        left: 0;
+    }
+
+}
+
+@media only screen and (max-width: 990px) {
+    .userInfo {
+        display: none;
+    }
+}

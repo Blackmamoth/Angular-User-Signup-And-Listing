@@ -7,78 +7,23 @@
 </div>
 
 <div class="p-2">
-    <h3>Upload Media</h3>
+    <div class="row">
 
-    <form class="p-3" [formGroup]="mediaForm" (ngSubmit)="onUpload()" enctype="multipart/form-data">
+        <!-- Data block -->
+        <article class="col-sm-9">
+            <div class="data-block">
+                <header>
+                    <h2><span class="elusive icon-calendar"></span> Upload Media</h2>
+                    <ul class="data-header-actions">
+                        <li class="demoTabs" [routerLink]="'active'"><a class="btn btn-alt"
+                                [routerLink]="['/users', 'edit', userData._id]">Update
+                                Profile</a></li>
+                    </ul>
+                </header>
 
-
-        <!-- <div class="fileupload fileupload-new" data-provides="fileupload">
-            <div class="input-group col-sm-4">
-                <div class="form-control">
-                    <i class="icon-file fileupload-exists"></i>
-                    <span class="fileupload-preview"></span>
-                </div>
-                <span class="input-group-btn">
-                    <span class="btn btn-default btn-file">
-                        <span class="fileupload-new">Select Image</span>
-                        <span class="fileupload-exists">Change</span>
-                        <input type="file" accept="image/*" formControlName="profilePic"
-                            (change)="onChangeImage($event)">
-                    </span>
-                </span>
-            </div>
-        </div>
-
-        <div class="fileupload fileupload-new" data-provides="fileupload">
-            <div class="input-group col-sm-4">
-                <div class="form-control">
-                    <i class="icon-file fileupload-exists"></i>
-                    <span class="fileupload-preview"></span>
-                </div>
-                <span class="input-group-btn">
-                    <span class="btn btn-default btn-file">
-                        <span class="fileupload-new">Select Video</span>
-                        <span class="fileupload-exists">Change</span>
-                        <input type="file" accept="video/*" formControlName="someVideo"
-                            (change)="onChangeVideo($event)">
-                    </span>
-                </span>
-            </div>
-        </div>
-
-        <div class="fileupload fileupload-new" data-provides="fileupload">
-            <div class="input-group col-sm-4">
-                <div class="form-control">
-                    <i class="icon-file fileupload-exists"></i>
-                    <span class="fileupload-preview"></span>
-                </div>
-                <span class="input-group-btn">
-                    <span class="btn btn-default btn-file">
-                        <span class="fileupload-new">Select Document</span>
-                        <span class="fileupload-exists">Change</span>
-                        <input type="file" accept="application/* || text/*" formControlName="someDocument"
-                            (change)="onChangeDocument($event)">
-                    </span>
-                </span>
-            </div>
-        </div> -->
-
-        <div class="row">
-
-            <!-- Data block -->
-            <article class="col-sm-9">
-                <div class="data-block">
-                    <header>
-                        <h2><span class="elusive icon-calendar"></span> Upload Media</h2>
-                        <ul class="data-header-actions">
-                            <li class="demoTabs" [routerLink]="'active'"><a class="btn btn-alt"
-                                    [routerLink]="['/users', 'edit', userData._id]">Update
-                                    Profile</a></li>
-                        </ul>
-                    </header>
-
+                <form [formGroup]="mediaForm" (ngSubmit)="onUpload()" enctype="multipart/form-data">
                     <div style="padding: 1em;">
-                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                        <div class=" fileupload fileupload-new" data-provides="fileupload">
                             <div class="fileupload-preview fileupload-large thumbnail"><img
                                     [src]="imgSrc | sanitizeUrl">
                             </div>
@@ -134,9 +79,9 @@
                             <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
                         </div>
                     </div>
-                </div>
-            </article>
-        </div>
-    </form>
+                </form>
+            </div>
+        </article>
+    </div>
 
 </div>

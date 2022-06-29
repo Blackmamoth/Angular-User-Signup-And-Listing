@@ -196,6 +196,10 @@
                   <span *ngIf="userForm.get('pinCode').errors['required']">
                     This field is required
                   </span>
+
+                  <span *ngIf="userForm.get('pinCode').errors['sixDigitRequired']">
+                    Pin code must contain 6 digits
+                  </span>
                 </span>
               </div>
 
