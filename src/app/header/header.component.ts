@@ -26,6 +26,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     })
   }
 
+  onClickNavbar() {
+    const btn = document.querySelector('#navBtn');
+    const mainNav = document.querySelector('#mainNav')
+    btn.classList.toggle('collapsed')
+    mainNav.classList.toggle('in')
+  }
+
   logoutUser() {
     console.log('clicked')
     this.authService.logoutUser()

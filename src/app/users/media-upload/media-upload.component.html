@@ -1,9 +1,9 @@
-<div *ngIf="errors">
-    <div class="alert alert-danger" *ngFor="let message of errors">{{message}}</div>
+<div class="alert alert-{{alertState}} alert-dismissable fade in" *ngIf="showAlert">
+    <strong>{{alertMessage}}</strong>
 </div>
 
-<div *ngIf="success">
-    <div class="alert alert-success" *ngFor="let message of success">{{message}}</div>
+<div style="margin: 0 50%;" *ngIf="loading">
+    <li><span class="loading dark"></span></li>
 </div>
 
 <div class="p-2">

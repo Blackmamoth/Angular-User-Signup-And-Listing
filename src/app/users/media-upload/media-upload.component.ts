@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FileUploadServices } from '../file-upload.service';
-import { User } from '../User';
-import { UsersService } from '../users.service';
 
 @Component({
   selector: 'app-media-upload',
@@ -14,8 +12,10 @@ export class MediaUploadComponent implements OnInit {
 
   userData = JSON.parse(localStorage.getItem('userData'))
 
-  success: string[] = [];
-  errors: string[] = [];
+  alertState: string = 'success'
+  alertMessage: string = null;
+  showAlert: boolean = false;
+  loading: boolean = false;
 
   mediaForm: FormGroup;
 
@@ -105,7 +105,6 @@ export class MediaUploadComponent implements OnInit {
   onChangeDocument(event) {
     const files = event.target.files
     this.documentFile = files[0]
-    console.log(files[0])
     this.documentFileName = files[0].name
   }
 
@@ -116,34 +115,51 @@ export class MediaUploadComponent implements OnInit {
 
   onUpload() {
     if (this.imageFile) {
-
+      this.loading = true
       this.mediaService.uploadImage(this.imageFile).subscribe(response => {
         if (!response.success) {
-          this.errors.push('Error occured while uploading profile pic')
+          this.alertMessage = 'Error, Something went wrong'
+          this.alertState = 'danger'
         } else {
-          this.success.push('Image upload succcessful')
+          this.alertMessage = 'Success, File uploaded successfully'
+          this.alertState = 'success'
           this.imageUpdate();
         }
+        this.loading = false;
+        this.showAlert = true
+        setTimeout(() => this.showAlert = false, 5000)
       })
     }
     if (this.videoFile) {
+      this.loading = true
       this.mediaService.uploadVideo(this.videoFile).subscribe(response => {
         if (!response.success) {
-          this.errors.push('Error occured while uploading Video')
+          this.alertMessage = 'Error, Something went wrong'
+          this.alertState = 'danger'
         } else {
-          this.success.push('Video Upload successful')
-          this.videoUpdate()
+          this.alertMessage = 'Success, File uploaded successfully'
+          this.alertState = 'success'
+          this.videoUpdate();
         }
+        this.loading = false
+        this.showAlert = true
+        setTimeout(() => this.showAlert = false, 5000)
       })
     }
     if (this.documentFile) {
+      this.loading = true
       this.mediaService.uploadDocument(this.documentFile).subscribe(response => {
         if (!response.success) {
-          this.errors.push('Error occured while uploading Document')
+          this.alertMessage = 'Error, Something went wrong'
+          this.alertState = 'danger'
         } else {
-          this.success.push('Document upload successful')
-          this.documentUpdate()
+          this.alertMessage = 'Success, File uploaded successfully'
+          this.alertState = 'success'
+          this.documentUpdate();
         }
+        this.loading = false
+        this.showAlert = true
+        setTimeout(() => this.showAlert = false, 5000)
       })
     }
     this.mediaForm.reset()

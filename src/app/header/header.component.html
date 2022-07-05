@@ -1,31 +1,3 @@
-<!-- <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" routerLink="/">Navbar</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" routerLink="/" *ngIf="isAuthenticated">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="register" *ngIf="!isAuthenticated">Sign Up</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="login" *ngIf="!isAuthenticated">Sign In</a>
-                </li>
-                <li class="nav-item">
-                    <a type="button" class="nav-link" style="cursor: pointer;" *ngIf="isAuthenticated"
-                        (click)="logoutUser()">Log
-                        out</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav> -->
-
 <header id="header" class="container">
 
     <h1>
@@ -39,14 +11,15 @@
 
         <!-- Collapse navigation for mobile -->
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".main-navigation-collapse">
+            <button type="button" (click)="onClickNavbar()" id="navBtn" class="navbar-toggle" data-toggle="collapse"
+                data-target=".main-navigation-collapse">
                 <span class="elusive icon-home"></span> Sangoma
             </button>
         </div>
         <!-- /Collapse navigation for mobile -->
 
         <!-- Navigation -->
-        <div class="main-navigation-collapse collapse navbar-collapse">
+        <div class="main-navigation-collapse collapse navbar-collapse" id="mainNav">
 
             <!-- Navigation items -->
             <ul class="nav navbar-nav">
