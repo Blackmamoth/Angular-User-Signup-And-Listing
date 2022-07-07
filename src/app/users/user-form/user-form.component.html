@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" [ngClass]="{'modal-backdrop':adminMode}">
   <!-- Grid row -->
   <div class="alert alert-success alert-dismissable fade in" *ngIf="showAlertMessage">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true" title="Close alert">&times;</button>
