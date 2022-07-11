@@ -1,0 +1,199 @@
+<div class="container modal" id="modal">
+    <!-- Grid row -->
+
+    <div class="row">
+
+        <!-- Data block -->
+        <article class="col-sm-9">
+            <div class="data-block">
+                <header>
+                    <h2><span class="elusive icon-calendar"></span> Payment Gateway</h2>
+                    <ul class="data-header-actions">
+                        <li class="demoTabs"><a class="btn btn-alt" [routerLink]="'active'"
+                                [routerLink]="['/users', 'edit', _id]">Update profile</a>
+                        </li>
+                    </ul>
+                </header>
+
+                <section class="tab-content">
+
+                    <!-- Tab #horizontal -->
+                    <div class="tab-pane active" id="horizontal">
+
+                        <form class="form-horizontal" role="form" (ngSubmit)="onSubmit()" [formGroup]="paymentForm">
+                            <div class="form-group">
+                                <label for="username" class="col-sm-2 control-label">Username</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" formControlName="name" id="username"
+                                        placeholder="Enter Username">
+                                </div>
+
+                                <span *ngIf="!paymentForm.get('name').valid && paymentForm.get('name').touched">
+                                    <span *ngIf="paymentForm.get('name').errors['required']">
+                                        This field is required
+                                    </span>
+                                </span>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email" class="col-sm-2 control-label">Email</label>
+                                <div class="col-sm-6">
+                                    <input type="email" class="form-control" formControlName="email" id="email"
+                                        placeholder="Enter Email">
+                                </div>
+
+                                <span *ngIf="!paymentForm.get('email').valid && paymentForm.get('email').touched">
+                                    <span *ngIf="paymentForm.get('email').errors['required']">
+                                        This field is required
+                                    </span>
+
+                                    <span *ngIf="paymentForm.get('email').errors['email']">
+                                        Please provide a valid email address
+                                    </span>
+                                </span>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="contact" class="col-sm-2 control-label">Contact</label>
+                                <div class="col-sm-6">
+                                    <input type="number" formControlName="contact" class="form-control" id="contact"
+                                        placeholder="Enter Contact">
+                                </div>
+
+                                <span *ngIf="!paymentForm.get('contact').valid && paymentForm.get('contact').touched">
+                                    <span *ngIf="paymentForm.get('contact').errors['required']">
+                                        This field is required
+                                    </span>
+
+                                    <span *ngIf="paymentForm.get('contact').errors['tenDigitRequired']">
+                                        Contact must contact 10 digits only
+                                    </span>
+                                </span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="amount" class="col-sm-2 control-label">Amount</label>
+                                <div class="col-sm-6">
+                                    <input type="number" formControlName="amount" class="form-control" id="amount"
+                                        placeholder="Enter amount">
+                                </div>
+
+                                <span *ngIf="!paymentForm.get('amount').valid && paymentForm.get('amount').touched">
+                                    <span *ngIf="paymentForm.get('amount').errors['required']">
+                                        This field is required
+                                    </span>
+                                </span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="currency" class="col-sm-2 control-label">Currency</label>
+                                <div class="col-sm-6">
+                                    <select formControlName="currency" id="currency" class="form-control">
+                                        <option *ngFor="let currency of currencyData" value="{{currency}}"
+                                            [disabled]="currency === 'Select Currency'">{{currency}}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <span *ngIf="!paymentForm.get('currency').valid && paymentForm.get('currency').touched">
+                                    <span *ngIf="paymentForm.get('currency').errors['required']">
+                                        This field is required
+                                    </span>
+                                </span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description" class="col-sm-2 control-label">Description</label>
+                                <div class="col-sm-6">
+                                    <textarea formControlName="description" class="form-control" id="description"
+                                        cols="20" rows="5"></textarea>
+                                </div>
+
+                                <span
+                                    *ngIf="!paymentForm.get('description').valid && paymentForm.get('description').touched">
+                                    <span *ngIf="paymentForm.get('description').errors['required']">
+                                        Please describe what you are paying for
+                                    </span>
+                                </span>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button [disabled]="!paymentForm.valid" class="btn btn-lg btn-success">Pay</button>
+                                    <button style="margin: 1em;" class="btn btn-lg btn-danger"
+                                        (click)="onClose()">Close</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <!-- /Tab #horizontal -->
+
+                </section>
+            </div>
+        </article>
+        <!-- /Data block -->
+
+    </div>
+    <!-- /Grid row -->
+</div>
+
+<div>
+    <!-- Grid row -->
+
+    <div class="row" id="navigation">
+
+        <!-- Data block -->
+        <article class="col-sm-9">
+            <div class="data-block">
+                <header>
+                    <h2><span class="elusive icon-calendar"></span> Payment Gateway</h2>
+                    <ul class="data-header-actions">
+                        <li class="demoTabs"><a class="btn btn-alt" [routerLink]="'active'"
+                                [routerLink]="['/users', 'edit', _id]">Update profile</a></li>
+                        <li class="demoTabs"><a class="btn btn-alt" (click)="openModal()">Pay</a>
+                        </li>
+                    </ul>
+                </header>
+            </div>
+        </article>
+    </div>
+</div>
+
+<div class="row">
+    <div class="table-responsive">
+        <table class="table table-bordered  table-hover">
+            <thead>
+                <tr>
+                    <th>Payment Link ID</th>
+                    <th>User ID</th>
+                    <th>Created Date</th>
+                    <th>Amount</th>
+                    <th>Reference Id</th>
+                    <th>Customer</th>
+                    <th>Payment Link</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of paymentLinkData">
+                    <td>{{data.id}}</td>
+                    <td>{{data.user_id}}</td>
+                    <td>{{data.created_at | date}}</td>
+                    <td>{{data.amount / 100}}</td>
+                    <td>{{data.reference_id}}</td>
+                    <td>{{data.customer.name}} / {{data.customer.email}}</td>
+                    <td><a target="_blank" href="{{data.short_url}}">{{data.short_url}}</a></td>
+                    <td class="btn" style="margin: 1em;"
+                        [ngClass]="{'btn-info': data.status === 'created', 'btn-primary': data.status === 'paid'}">
+                        {{data.status}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3 *ngIf="!noPaymentLinkData">No payment links were created by you</h3>
+    </div>
+</div>

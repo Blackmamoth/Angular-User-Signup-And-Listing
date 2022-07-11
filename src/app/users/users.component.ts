@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { PaymentsService } from '../payment-gateway/payments.service';
 import { User } from './User';
 import { UsersService } from './users.service';
 
@@ -28,10 +29,17 @@ export class UsersComponent implements OnInit {
 
   adminMode: boolean = false;
 
-  constructor(private userService: UsersService, private router: Router, private route: ActivatedRoute) {
+  constructor(private userService: UsersService, private router: Router, private route: ActivatedRoute, private paymentService: PaymentsService) {
   }
 
   ngOnInit(): void {
+
+    this.route.queryParams.subscribe((queryParams) => {
+      this.paymentService.verifyPayment(queryParams).subscribe(data => {
+        console.log(data)
+      })
+    })
+
     this.userService.getUsers().subscribe(users => {
       this.users = users
       this.userService.getCountries().subscribe(countries => {
@@ -66,7 +74,7 @@ export class UsersComponent implements OnInit {
       if (!this.user.admin) {
         this.router.navigate(['edit', this.user._id], { relativeTo: this.route })
       }
-    }, 500)
+    }, 800)
 
   }
 

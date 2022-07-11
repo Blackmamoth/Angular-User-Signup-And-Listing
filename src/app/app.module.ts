@@ -20,6 +20,7 @@ import { UserMedicinesComponent } from './users/user-medicines/user-medicines.co
 import { MediaUploadComponent } from './users/media-upload/media-upload.component';
 import { SanitizeUrlPipe } from './sanitize-url.pipe';
 import { AddMedicineComponent } from './users/user-medicines/add-medicine/add-medicine.component';
+import { PaymentGatewayComponent } from './payment-gateway/payment-gateway.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { AddMedicineComponent } from './users/user-medicines/add-medicine/add-me
     MediaUploadComponent,
     SanitizeUrlPipe,
     AddMedicineComponent,
+    PaymentGatewayComponent,
   ],
   imports: [
     BrowserModule,
